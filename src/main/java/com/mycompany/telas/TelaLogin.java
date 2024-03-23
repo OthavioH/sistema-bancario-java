@@ -2,20 +2,16 @@
 package com.mycompany.telas;
 
 import com.mycompany.controllers.UserController;
-import com.mycompany.entities.Usuario;
 import com.mycompany.entities.validation.ViewError;
-import com.mycompany.repositories.UsuarioRepository;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 public class TelaLogin extends javax.swing.JPanel {
-    private UsuarioRepository usuarioRepository;
     private UserController userController;
     public TelaLogin() {
         initComponents();
         userController = new UserController();
-        usuarioRepository = new UsuarioRepository();
     }
 
     @SuppressWarnings("unchecked")
@@ -104,6 +100,8 @@ public class TelaLogin extends javax.swing.JPanel {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        jtfCpf.setText("");
+        jtfCpf.setToolTipText("");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
