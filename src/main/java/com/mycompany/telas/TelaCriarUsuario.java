@@ -19,7 +19,7 @@ public class TelaCriarUsuario extends javax.swing.JPanel {
         jtCPF = new javax.swing.JTextField();
         jlMensagemErro = new javax.swing.JLabel();
         jtSenha = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        jbCriarUsuario = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -42,13 +42,13 @@ public class TelaCriarUsuario extends javax.swing.JPanel {
 
         jtSenha.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
-        jButton1.setBackground(new java.awt.Color(0, 204, 204));
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton1.setText("Criar");
-        jButton1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 102), 3, true));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jbCriarUsuario.setBackground(new java.awt.Color(0, 204, 204));
+        jbCriarUsuario.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jbCriarUsuario.setText("Criar");
+        jbCriarUsuario.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 102), 3, true));
+        jbCriarUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jbCriarUsuarioActionPerformed(evt);
             }
         });
 
@@ -108,7 +108,7 @@ public class TelaCriarUsuario extends javax.swing.JPanel {
                         .addComponent(jlMensagemErro))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(122, 122, 122)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jbCriarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(67, 67, 67)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -157,23 +157,22 @@ public class TelaCriarUsuario extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(jlMensagemErro)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jbCriarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jbCriarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCriarUsuarioActionPerformed
         Janela.telaInicial = new TelaInicial();                                          //Inicializa o painel p3.
         JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);    //Recupera a referência do frame.
         janela.getContentPane().remove(Janela.telaLogin);                          //Remove o painel p2 do frame.
         janela.add(Janela.telaInicial, BorderLayout.CENTER);                         //Adiciona o painel p3 no frame.
         janela.pack();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jbCriarUsuarioActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -181,6 +180,7 @@ public class TelaCriarUsuario extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JButton jbCriarUsuario;
     private javax.swing.JLabel jlMensagemErro;
     private javax.swing.JTextField jtCPF;
     private javax.swing.JTextField jtSenha;

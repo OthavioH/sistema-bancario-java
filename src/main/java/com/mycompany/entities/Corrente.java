@@ -1,4 +1,4 @@
-package com.mycompany.sistemabancario;
+package com.mycompany.entities;
 
 public class Corrente extends Conta{
     private double limite;
