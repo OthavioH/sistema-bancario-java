@@ -12,10 +12,10 @@ import com.mycompany.repositories.UsuarioRepository;
  *
  * @author othavio
  */
-public class UserController {
+public class UsuarioController {
     private UsuarioRepository usuarioRepository;
     
-    public UserController(){
+    public UsuarioController(){
         this.usuarioRepository = new UsuarioRepository();
     }
     

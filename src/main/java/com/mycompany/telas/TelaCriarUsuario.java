@@ -1,6 +1,6 @@
 package com.mycompany.telas;
 
-import com.mycompany.controllers.UserController;
+import com.mycompany.controllers.UsuarioController;
 import com.mycompany.entities.Usuario;
 import com.mycompany.entities.validation.ViewError;
 import com.mycompany.repositories.UsuarioRepository;
@@ -9,13 +9,13 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 public class TelaCriarUsuario extends javax.swing.JPanel {
-    private UserController userController;
+    private UsuarioController userController;
     private UsuarioRepository usuarioRepository;
     
     public TelaCriarUsuario() {
         initComponents();
         usuarioRepository = new UsuarioRepository();
-        userController = new UserController();
+        userController = new UsuarioController();
     }
 
     @SuppressWarnings("unchecked")

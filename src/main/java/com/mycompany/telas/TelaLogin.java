@@ -1,17 +1,17 @@
 
 package com.mycompany.telas;
 
-import com.mycompany.controllers.UserController;
+import com.mycompany.controllers.UsuarioController;
 import com.mycompany.entities.validation.ViewError;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 public class TelaLogin extends javax.swing.JPanel {
-    private UserController userController;
+    private UsuarioController userController;
     public TelaLogin() {
         initComponents();
-        userController = new UserController();
+        userController = new UsuarioController();
     }
 
     @SuppressWarnings("unchecked")
