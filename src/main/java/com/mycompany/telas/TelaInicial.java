@@ -5,7 +5,6 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 public class TelaInicial extends javax.swing.JPanel {
-
     public TelaInicial() {
         initComponents();
     }
@@ -215,7 +214,11 @@ public class TelaInicial extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSairActionPerformed
-        // TODO add your handling code here:
+        Janela.telaLogin = new TelaLogin();                                          
+        JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);    
+        janela.getContentPane().remove(Janela.telaInicial);                          
+        janela.add(Janela.telaLogin, BorderLayout.CENTER);                         
+        janela.pack();
     }//GEN-LAST:event_jbSairActionPerformed
 
     private void jbPoupancaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPoupancaActionPerformed

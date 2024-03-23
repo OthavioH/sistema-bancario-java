@@ -34,13 +34,38 @@ public class UsuarioRepository {
         Usuario usuario = null;
         
         try {
-            PreparedStatement consulta = this.db.prepararQuery("SELECT * FROM usuario WHERE cpf = "+cpf);
+            PreparedStatement consulta = this.db.prepararQuery("SELECT * FROM usuario WHERE cpf = ?");
+            consulta.setLong(1, cpf);
             consulta.execute();
             ResultSet result = consulta.getResultSet();
             
             while (result.next()){
                 String nome = result.getString("nome");
                 String senha = result.getString("senha");
+                usuario = new Usuario(nome,cpf,senha);
+            }
+            
+            result.close();
+            
+        } catch (SQLException e) {
+            System.out.println("Erro ao inserir dados do Usuario: " +e.getMessage());
+        }
+        
+        return usuario;
+    }
+    
+    public Usuario getUsuarioLogin(Long cpf, String senha) {
+        Usuario usuario = null;
+        
+        try {
+            PreparedStatement consulta = this.db.prepararQuery("SELECT * FROM usuario WHERE cpf = ? and senha = ? LIMIT 1");
+            consulta.setLong(1, cpf);
+            consulta.setString(2, senha);
+            consulta.execute();
+            ResultSet result = consulta.getResultSet();
+            
+            while (result.next()){
+                String nome = result.getString("nome");
                 usuario = new Usuario(nome,cpf,senha);
             }
             

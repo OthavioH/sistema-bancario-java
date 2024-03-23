@@ -1,4 +1,6 @@
 com\mycompany\repositories\UsuarioRepository.class
 com\mycompany\telas\TelaLogin$2.class
+com\mycompany\entities\validation\ViewError.class
+com\mycompany\controllers\UserController.class
 com\mycompany\entities\Corrente.class
 com\mycompany\entities\Poupanca.class
