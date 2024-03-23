@@ -1,13 +1,13 @@
 package com.mycompany.entities;
 
 public class Usuario {
-    private String nome, cpf, senha;
-    private Conta conta;
+    private String nome, senha;
+    private Long cpf;
 
     public Usuario() {
     }
 
-    public Usuario(String nome, String cpf, String senha) {
+    public Usuario(String nome, Long cpf, String senha) {
         this.nome = nome;
         this.cpf = cpf;
         this.senha = senha;
@@ -21,11 +21,11 @@ public class Usuario {
         this.nome = nome;
     }
 
-    public String getCpf() {
+    public Long getCpf() {
         return cpf;
     }
 
-    public void setCpf(String cpf) {
+    public void setCpf(Long cpf) {
         this.cpf = cpf;
     }
 
@@ -35,14 +35,6 @@ public class Usuario {
 
     public void setSenha(String senha) {
         this.senha = senha;
-    }
-
-    public Conta getConta() {
-        return conta;
-    }
-
-    public void setConta(Conta conta) {
-        this.conta = conta;
     }
     
 }
