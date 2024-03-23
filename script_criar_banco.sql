@@ -1,11 +1,10 @@
 CREATE SCHEMA IF NOT EXISTS `sistemabanco` DEFAULT CHARACTER SET utf8 ;
 USE `sistemabanco` ;
-
 -- -----------------------------------------------------
 -- Table `sistemabanco`.`Usuario`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS Usuario (
-  cpf INT(11) NOT NULL,
+  cpf BIGINT NOT NULL,
   nome VARCHAR(70) NOT NULL,
   senha VARCHAR(45) NOT NULL,
   PRIMARY KEY (cpf),
@@ -19,7 +18,7 @@ CREATE TABLE IF NOT EXISTS Usuario (
 CREATE TABLE IF NOT EXISTS `sistemabanco`.`Conta` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `saldo` DECIMAL(11,2) NOT NULL DEFAULT 0,
-  `Usuario_cpf` INT(11) NOT NULL,
+  `Usuario_cpf` BIGINT(11) NOT NULL,
   `tipo_conta` INT(1) NOT NULL,
   PRIMARY KEY (`id`, `Usuario_cpf`),
   INDEX `fk_Conta_Usuario1_idx` (`Usuario_cpf` ASC),
@@ -77,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `sistemabanco`.`Emprestimo` (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `sistemabanco`.`ContaCorrente` (
   `Conta_id` INT(11) NOT NULL,
-  `Conta_Usuario_cpf` INT(11) NOT NULL,
+  `Conta_Usuario_cpf` BIGINT(11) NOT NULL,
   `limite` DECIMAL(11,2) NOT NULL DEFAULT 0,
   PRIMARY KEY (`Conta_id`, `Conta_Usuario_cpf`),
   CONSTRAINT `fk_ContaCorrente_Conta1`
@@ -92,7 +91,7 @@ CREATE TABLE IF NOT EXISTS `sistemabanco`.`ContaCorrente` (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `sistemabanco`.`ContaPoupanca` (
   `Conta_id` INT(11) NOT NULL,
-  `Conta_Usuario_cpf` INT(11) NOT NULL,
+  `Conta_Usuario_cpf` BIGINT(11) NOT NULL,
   `rendimento` DECIMAL(11,2) NOT NULL DEFAULT 0,
   PRIMARY KEY (`Conta_id`, `Conta_Usuario_cpf`),
   CONSTRAINT `fk_ContaPoupanca_Conta1`

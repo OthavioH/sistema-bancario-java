@@ -6,6 +6,7 @@ package com.mycompany.data;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -37,5 +38,11 @@ public class ConexaoDB {
         
         
         return conexao;
+    }
+    
+    public PreparedStatement prepararQuery(String sqlQuery) throws SQLException{
+        Connection conexao = this.getConexao();
+        
+        return conexao.prepareStatement(sqlQuery);
     }
 }
