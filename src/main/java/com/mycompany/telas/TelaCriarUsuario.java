@@ -21,7 +21,6 @@ public class TelaCriarUsuario extends javax.swing.JPanel {
 
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jtCPF = new javax.swing.JTextField();
         jlMensagemErro = new javax.swing.JLabel();
         jbCriarUsuario = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
@@ -33,6 +32,7 @@ public class TelaCriarUsuario extends javax.swing.JPanel {
         jPasswordField2 = new javax.swing.JPasswordField();
         jlNome = new javax.swing.JLabel();
         jtNome = new javax.swing.JTextField();
+        jftCpf = new javax.swing.JFormattedTextField();
 
         setBackground(new java.awt.Color(204, 204, 255));
         setPreferredSize(new java.awt.Dimension(330, 360));
@@ -42,13 +42,6 @@ public class TelaCriarUsuario extends javax.swing.JPanel {
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setText("Senha:");
-
-        jtCPF.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jtCPF.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jtCPFKeyPressed(evt);
-            }
-        });
 
         jlMensagemErro.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
@@ -103,6 +96,12 @@ public class TelaCriarUsuario extends javax.swing.JPanel {
 
         jlNome.setText("Nome:");
 
+        try {
+            jftCpf.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###########")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -110,18 +109,7 @@ public class TelaCriarUsuario extends javax.swing.JPanel {
             .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(69, 69, 69)
-                .addComponent(jLabel3)
-                .addGap(10, 10, 10)
-                .addComponent(jtCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 69, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(67, 67, 67)
-                        .addComponent(jlNome)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(131, 131, 131)
                         .addComponent(jLabel1))
@@ -141,8 +129,19 @@ public class TelaCriarUsuario extends javax.swing.JPanel {
                             .addGap(37, 37, 37)
                             .addComponent(jLabel5)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(69, 69, 69)
+                            .addComponent(jLabel3)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jftCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGap(67, 67, 67)
+                            .addComponent(jlNome)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(47, Short.MAX_VALUE))
             .addComponent(jlMensagemErro, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -151,12 +150,10 @@ public class TelaCriarUsuario extends javax.swing.JPanel {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(3, 3, 3)
-                        .addComponent(jLabel3))
-                    .addComponent(jtCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(19, 19, 19)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jftCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jlNome)
@@ -182,7 +179,7 @@ public class TelaCriarUsuario extends javax.swing.JPanel {
         boolean isCamposValidados = validarCampos();
         if (!isCamposValidados) return;
         
-        Long cpf = Long.parseLong(jtCPF.getText());
+        Long cpf = Long.parseLong(jftCpf.getText());
         Usuario usuario = this.usuarioRepository.getUsuarioPorCpf(cpf);
         if (usuario != null){
             jlMensagemErro.setText("Usuario já cadastrado.");
@@ -191,9 +188,9 @@ public class TelaCriarUsuario extends javax.swing.JPanel {
         
         String senha = new String(jpSenha.getPassword());
         usuario = new Usuario(jtNome.getText(),cpf, senha);
-        boolean cadastrado = this.usuarioRepository.cadastrarNovoUsuario(usuario);
+        boolean cadastradoComSucesso = this.usuarioRepository.cadastrarNovoUsuario(usuario);
         
-        if (cadastrado) {
+        if (cadastradoComSucesso) {
             Janela.telaInicial = new TelaInicial();                                          //Inicializa o painel p3.
             JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);    //Recupera a referência do frame.
             janela.getContentPane().remove(Janela.telaCriarUsuario);                          //Remove o painel p2 do frame.
@@ -205,33 +202,57 @@ public class TelaCriarUsuario extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jbCriarUsuarioActionPerformed
 
-    private void jtCPFKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtCPFKeyPressed
-
-    }//GEN-LAST:event_jtCPFKeyPressed
-
     private boolean validarCampos() {
-        if (jtCPF.getText().isEmpty()){
-            jlMensagemErro.setText("CPF Inválido");
-            jtCPF.requestFocus();
-            return false;
-        }
+        if (!validarCpf()) return false;
+        if (!validarNome()) return false;
+        if (!validarSenha()) return false;
         
-        if(jtCPF.getText().length() != 11){
-            jlMensagemErro.setText("CPF Inválido");
-            jtCPF.requestFocus();
-            return false;
-        }
-        
+        jlMensagemErro.setText("");
+        return true;
+    }
+    
+    private boolean validarSenha() {
         if(jpSenha.getPassword().length < 1 || jPasswordField2.getPassword().length < 1){
             jlMensagemErro.setText("Nenhuma das senhas pode ser vazia");
             jpSenha.requestFocus();
             return false;
         }
         
-        jlMensagemErro.setText("");
+        if (jpSenha.getPassword().equals(jPasswordField2.getPassword())){
+            jlMensagemErro.setText("As senhas não são compatíveis");
+            jpSenha.requestFocus();
+            return false;
+        }
+        
         return true;
     }
 
+    private boolean validarNome(){
+        if(jtNome.getText().length() < 1){
+            jlMensagemErro.setText("Você deve inserir um nome");
+            jtNome.requestFocus();
+            return false;
+        }
+        
+        return true;
+    }
+    
+    private boolean validarCpf(){
+        if (jftCpf.getText().isEmpty()){
+            jlMensagemErro.setText("CPF Inválido");
+            jftCpf.requestFocus();
+            return false;
+        }
+        
+        if(jftCpf.getText().length() != 11){
+            jlMensagemErro.setText("CPF Inválido");
+            jftCpf.requestFocus();
+            return false;
+        }
+        
+        return true;
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -242,10 +263,10 @@ public class TelaCriarUsuario extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPasswordField jPasswordField2;
     private javax.swing.JButton jbCriarUsuario;
+    private javax.swing.JFormattedTextField jftCpf;
     private javax.swing.JLabel jlMensagemErro;
     private javax.swing.JLabel jlNome;
     private javax.swing.JPasswordField jpSenha;
-    private javax.swing.JTextField jtCPF;
     private javax.swing.JTextField jtNome;
     // End of variables declaration//GEN-END:variables
 }
