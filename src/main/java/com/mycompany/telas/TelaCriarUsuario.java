@@ -1,18 +1,21 @@
 package com.mycompany.telas;
 
+import com.mycompany.controllers.UserController;
 import com.mycompany.entities.Usuario;
+import com.mycompany.entities.validation.ViewError;
 import com.mycompany.repositories.UsuarioRepository;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 public class TelaCriarUsuario extends javax.swing.JPanel {
-
+    private UserController userController;
     private UsuarioRepository usuarioRepository;
     
     public TelaCriarUsuario() {
         initComponents();
         usuarioRepository = new UsuarioRepository();
+        userController = new UserController();
     }
 
     @SuppressWarnings("unchecked")
@@ -29,7 +32,7 @@ public class TelaCriarUsuario extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jpSenha = new javax.swing.JPasswordField();
-        jPasswordField2 = new javax.swing.JPasswordField();
+        jpConfirmarSenha = new javax.swing.JPasswordField();
         jlNome = new javax.swing.JLabel();
         jtNome = new javax.swing.JTextField();
         jftCpf = new javax.swing.JFormattedTextField();
@@ -129,7 +132,7 @@ public class TelaCriarUsuario extends javax.swing.JPanel {
                             .addGap(37, 37, 37)
                             .addComponent(jLabel5)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jpConfirmarSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(layout.createSequentialGroup()
                             .addGap(69, 69, 69)
@@ -165,7 +168,7 @@ public class TelaCriarUsuario extends javax.swing.JPanel {
                 .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jpConfirmarSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jlMensagemErro)
                 .addGap(18, 18, 18)
@@ -179,7 +182,7 @@ public class TelaCriarUsuario extends javax.swing.JPanel {
         boolean isCamposValidados = validarCampos();
         if (!isCamposValidados) return;
         
-        Long cpf = Long.parseLong(jftCpf.getText());
+        Long cpf = Long.valueOf(jftCpf.getText());
         Usuario usuario = this.usuarioRepository.getUsuarioPorCpf(cpf);
         if (usuario != null){
             jlMensagemErro.setText("Usuario já cadastrado.");
@@ -190,66 +193,40 @@ public class TelaCriarUsuario extends javax.swing.JPanel {
         usuario = new Usuario(jtNome.getText(),cpf, senha);
         boolean cadastradoComSucesso = this.usuarioRepository.cadastrarNovoUsuario(usuario);
         
-        if (cadastradoComSucesso) {
-            Janela.telaInicial = new TelaInicial();                                          //Inicializa o painel p3.
-            JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);    //Recupera a referência do frame.
-            janela.getContentPane().remove(Janela.telaCriarUsuario);                          //Remove o painel p2 do frame.
-            janela.add(Janela.telaInicial, BorderLayout.CENTER);                         //Adiciona o painel p3 no frame.
-            janela.pack();
-        }
-        else {
+        if (!cadastradoComSucesso) {
             jlMensagemErro.setText("Houve um erro ao tentar cadastrar um novo usuário.");
+            return;
         }
+        
+        Janela.telaInicial = new TelaInicial();
+        JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);
+        janela.getContentPane().remove(Janela.telaCriarUsuario);
+        janela.add(Janela.telaInicial, BorderLayout.CENTER);
+        janela.pack();
     }//GEN-LAST:event_jbCriarUsuarioActionPerformed
 
     private boolean validarCampos() {
-        if (!validarCpf()) return false;
-        if (!validarNome()) return false;
-        if (!validarSenha()) return false;
+        ViewError cpfValidado = userController.validarCampoCpf(jftCpf.getText().trim());
+        ViewError nomeValidado = userController.validarCampoNome(jtNome.getText());
+        ViewError senhaValidada = userController.validarCamposConfirmarSenha(jpSenha.getPassword(), jpConfirmarSenha.getPassword());
+        
+        if (cpfValidado.hasErro){
+            jftCpf.requestFocus();
+            jlMensagemErro.setText(cpfValidado.erroMensagem);
+            return false;
+        }
+        if (nomeValidado.hasErro){
+            jtNome.requestFocus();
+            jlMensagemErro.setText(nomeValidado.erroMensagem);
+            return false;
+        }
+        if (senhaValidada.hasErro){
+            jpSenha.requestFocus();
+            jlMensagemErro.setText(senhaValidada.erroMensagem);
+            return false;
+        }
         
         jlMensagemErro.setText("");
-        return true;
-    }
-    
-    private boolean validarSenha() {
-        if(jpSenha.getPassword().length < 1 || jPasswordField2.getPassword().length < 1){
-            jlMensagemErro.setText("Nenhuma das senhas pode ser vazia");
-            jpSenha.requestFocus();
-            return false;
-        }
-        
-        if (jpSenha.getPassword().equals(jPasswordField2.getPassword())){
-            jlMensagemErro.setText("As senhas não são compatíveis");
-            jpSenha.requestFocus();
-            return false;
-        }
-        
-        return true;
-    }
-
-    private boolean validarNome(){
-        if(jtNome.getText().length() < 1){
-            jlMensagemErro.setText("Você deve inserir um nome");
-            jtNome.requestFocus();
-            return false;
-        }
-        
-        return true;
-    }
-    
-    private boolean validarCpf(){
-        if (jftCpf.getText().isEmpty()){
-            jlMensagemErro.setText("CPF Inválido");
-            jftCpf.requestFocus();
-            return false;
-        }
-        
-        if(jftCpf.getText().length() != 11){
-            jlMensagemErro.setText("CPF Inválido");
-            jftCpf.requestFocus();
-            return false;
-        }
-        
         return true;
     }
     
@@ -261,11 +238,11 @@ public class TelaCriarUsuario extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPasswordField jPasswordField2;
     private javax.swing.JButton jbCriarUsuario;
     private javax.swing.JFormattedTextField jftCpf;
     private javax.swing.JLabel jlMensagemErro;
     private javax.swing.JLabel jlNome;
+    private javax.swing.JPasswordField jpConfirmarSenha;
     private javax.swing.JPasswordField jpSenha;
     private javax.swing.JTextField jtNome;
     // End of variables declaration//GEN-END:variables
