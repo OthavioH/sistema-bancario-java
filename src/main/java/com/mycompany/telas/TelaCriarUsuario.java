@@ -10,11 +10,9 @@ import javax.swing.SwingUtilities;
 
 public class TelaCriarUsuario extends javax.swing.JPanel {
     private final UsuarioController usuarioController;
-    private final UsuarioRepository usuarioRepository;
     
     public TelaCriarUsuario() {
         initComponents();
-        usuarioRepository = new UsuarioRepository();
         usuarioController = new UsuarioController();
     }
 

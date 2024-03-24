@@ -178,24 +178,6 @@ public class TelaLogin extends javax.swing.JPanel {
         janela.pack();
     }//GEN-LAST:event_jbLoginActionPerformed
 
-    private boolean validarCampos(){
-        ViewValidation cpfValidado = usuarioController.validarCampoCpf(jtfCpf.getText().trim());
-        ViewValidation senhaValidada = usuarioController.validarCampoSenha(jpSenha.getPassword());
-        
-        if (cpfValidado.hasErro){
-            jtfCpf.requestFocus();
-            jlMensagemErro.setText(cpfValidado.erroMensagem);
-            return false;
-        }
-        if (senhaValidada.hasErro){
-            jpSenha.requestFocus();
-            jlMensagemErro.setText(senhaValidada.erroMensagem);
-            return false;
-        }
-        
-        jlMensagemErro.setText("");
-        return true;
-    }
     
     private void jlRegistrarContaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlRegistrarContaMouseClicked
         Janela.telaCriarUsuario = new TelaCriarUsuario();                                          
