@@ -1,6 +1,7 @@
 package com.mycompany.telas;
 
 import com.mycompany.controllers.UsuarioController;
+import com.mycompany.entities.Conta;
 import com.mycompany.entities.ContaCorrente;
 import com.mycompany.entities.Usuario;
 import java.awt.BorderLayout;
@@ -10,7 +11,7 @@ import javax.swing.SwingUtilities;
 public class TelaInicial extends javax.swing.JPanel {
     public Usuario usuarioLogado;
     private UsuarioController usuarioController;
-    public ContaCorrente contaCorrente;
+    public Conta contaUsuario;
     
     public TelaInicial(Usuario usuario){
         this.usuarioController = new UsuarioController();
@@ -230,8 +231,13 @@ public class TelaInicial extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void changeSaldo() {
-        this.contaCorrente = this.usuarioController.getUsuarioContaCorrente(usuarioLogado.getCpf());
-        this.jlSaldoAtual.setText(String.valueOf(contaCorrente.getSaldo()));
+        contaUsuario = this.usuarioController.getUsuarioContaCorrente(usuarioLogado.getCpf());
+        
+        if (contaUsuario == null) {
+            contaUsuario = this.usuarioController.getUsuarioContaPoupanca(usuarioLogado.getCpf());
+        }
+        
+        this.jlSaldoAtual.setText(String.valueOf(contaUsuario.getSaldo()));
     }
     
     private void jbSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSairActionPerformed
