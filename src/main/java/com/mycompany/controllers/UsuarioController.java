@@ -28,10 +28,12 @@ public class UsuarioController {
     }
     
     public ViewError validarCamposConfirmarSenha(char[] senha, char[] confirmarSenha) {
+        ViewError campoSenhaValidacao = validarCampoSenha(senha);
+        if (campoSenhaValidacao.hasErro) return campoSenhaValidacao;
         
-        if(senha.length < 1 || confirmarSenha.length < 1) return new ViewError(true, "As senhas não podem ser vazias");
+        if(confirmarSenha.length < 1) return new ViewError(true, "As senhas não podem ser vazias");
         
-        if (!senha.equals(confirmarSenha)) return new ViewError(true, "Ase senhas não são compatíveis");
+        if (!senha.equals(confirmarSenha)) return new ViewError(true, "As senhas não são compatíveis");
         
         return new ViewError(false, "");
     }

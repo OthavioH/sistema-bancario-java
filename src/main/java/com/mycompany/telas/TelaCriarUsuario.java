@@ -9,13 +9,13 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 public class TelaCriarUsuario extends javax.swing.JPanel {
-    private UsuarioController userController;
-    private UsuarioRepository usuarioRepository;
+    private final UsuarioController usuarioController;
+    private final UsuarioRepository usuarioRepository;
     
     public TelaCriarUsuario() {
         initComponents();
         usuarioRepository = new UsuarioRepository();
-        userController = new UsuarioController();
+        usuarioController = new UsuarioController();
     }
 
     @SuppressWarnings("unchecked")
@@ -206,9 +206,9 @@ public class TelaCriarUsuario extends javax.swing.JPanel {
     }//GEN-LAST:event_jbCriarUsuarioActionPerformed
 
     private boolean validarCampos() {
-        ViewError cpfValidado = userController.validarCampoCpf(jftCpf.getText().trim());
-        ViewError nomeValidado = userController.validarCampoNome(jtNome.getText());
-        ViewError senhaValidada = userController.validarCamposConfirmarSenha(jpSenha.getPassword(), jpConfirmarSenha.getPassword());
+        ViewError cpfValidado = usuarioController.validarCampoCpf(jftCpf.getText().trim());
+        ViewError nomeValidado = usuarioController.validarCampoNome(jtNome.getText());
+        ViewError senhaValidada = usuarioController.validarCamposConfirmarSenha(jpSenha.getPassword(), jpConfirmarSenha.getPassword());
         
         if (cpfValidado.hasErro){
             jftCpf.requestFocus();

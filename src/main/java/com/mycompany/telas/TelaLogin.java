@@ -8,10 +8,10 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 public class TelaLogin extends javax.swing.JPanel {
-    private UsuarioController userController;
+    private final UsuarioController usuarioController;
     public TelaLogin() {
         initComponents();
-        userController = new UsuarioController();
+        usuarioController = new UsuarioController();
     }
 
     @SuppressWarnings("unchecked")
@@ -169,7 +169,7 @@ public class TelaLogin extends javax.swing.JPanel {
         Long cpf = Long.valueOf(jtfCpf.getText());
         String senha = new String(jpSenha.getPassword());
         try {
-            ViewError loginError = userController.logarUsuario(cpf, senha);
+            ViewError loginError = usuarioController.logarUsuario(cpf, senha);
         
             if(loginError.hasErro){
                 this.jlMensagemErro.setText(loginError.erroMensagem);
@@ -187,8 +187,8 @@ public class TelaLogin extends javax.swing.JPanel {
     }//GEN-LAST:event_jbLoginActionPerformed
 
     private boolean validarCampos(){
-        ViewError cpfValidado = userController.validarCampoCpf(jtfCpf.getText().trim());
-        ViewError senhaValidada = userController.validarCampoSenha(jpSenha.getPassword());
+        ViewError cpfValidado = usuarioController.validarCampoCpf(jtfCpf.getText().trim());
+        ViewError senhaValidada = usuarioController.validarCampoSenha(jpSenha.getPassword());
         
         if (cpfValidado.hasErro){
             jtfCpf.requestFocus();
