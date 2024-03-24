@@ -2,6 +2,7 @@ C:\Projetos\ProjetosPessoais\sistema-bancario-java\src\main\java\com\mycompany\e
 C:\Projetos\ProjetosPessoais\sistema-bancario-java\src\main\java\com\mycompany\telas\TelaApagarConta.java
 C:\Projetos\ProjetosPessoais\sistema-bancario-java\src\main\java\com\mycompany\repositories\UsuarioRepository.java
 C:\Projetos\ProjetosPessoais\sistema-bancario-java\src\main\java\com\mycompany\telas\TelaPoupanca.java
+C:\Projetos\ProjetosPessoais\sistema-bancario-java\src\main\java\com\mycompany\entities\ContaPoupanca.java
 C:\Projetos\ProjetosPessoais\sistema-bancario-java\src\main\java\com\mycompany\telas\TelaLogin.java
 C:\Projetos\ProjetosPessoais\sistema-bancario-java\src\main\java\com\mycompany\telas\TelaTransferencia.java
 C:\Projetos\ProjetosPessoais\sistema-bancario-java\src\main\java\com\mycompany\controllers\UsuarioController.java
@@ -9,12 +10,12 @@ C:\Projetos\ProjetosPessoais\sistema-bancario-java\src\main\java\com\mycompany\t
 C:\Projetos\ProjetosPessoais\sistema-bancario-java\src\main\java\com\mycompany\telas\TelaCriarUsuario.java
 C:\Projetos\ProjetosPessoais\sistema-bancario-java\src\main\java\com\mycompany\telas\Janela.java
 C:\Projetos\ProjetosPessoais\sistema-bancario-java\src\main\java\com\mycompany\data\ConexaoDB.java
-C:\Projetos\ProjetosPessoais\sistema-bancario-java\src\main\java\com\mycompany\entities\Corrente.java
 C:\Projetos\ProjetosPessoais\sistema-bancario-java\src\main\java\com\mycompany\entities\Usuario.java
 C:\Projetos\ProjetosPessoais\sistema-bancario-java\src\main\java\com\mycompany\entities\Transferencia.java
-C:\Projetos\ProjetosPessoais\sistema-bancario-java\src\main\java\com\mycompany\entities\Poupanca.java
+C:\Projetos\ProjetosPessoais\sistema-bancario-java\src\main\java\com\mycompany\repositories\ContaRepository.java
+C:\Projetos\ProjetosPessoais\sistema-bancario-java\src\main\java\com\mycompany\entities\ContaCorrente.java
 C:\Projetos\ProjetosPessoais\sistema-bancario-java\src\main\java\com\mycompany\telas\TelaExtrato.java
 C:\Projetos\ProjetosPessoais\sistema-bancario-java\src\main\java\com\mycompany\sistemabancario\Main.java
-C:\Projetos\ProjetosPessoais\sistema-bancario-java\src\main\java\com\mycompany\entities\validation\ViewError.java
+C:\Projetos\ProjetosPessoais\sistema-bancario-java\src\main\java\com\mycompany\entities\validation\ViewValidation.java
 C:\Projetos\ProjetosPessoais\sistema-bancario-java\src\main\java\com\mycompany\telas\TelaCriarConta.java
 C:\Projetos\ProjetosPessoais\sistema-bancario-java\src\main\java\com\mycompany\telas\TelaEmprestimo.java

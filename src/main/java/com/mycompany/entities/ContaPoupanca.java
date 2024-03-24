@@ -1,17 +1,17 @@
 package com.mycompany.entities;
 
-public class Poupanca extends Conta{
+public class ContaPoupanca extends Conta{
     private double rendimento;
 
-    public Poupanca() {
+    public ContaPoupanca() {
     }
 
-    public Poupanca(double rendimento) {
+    public ContaPoupanca(double rendimento) {
         this.rendimento = rendimento;
     }
 
-    public Poupanca(double rendimento, double saldo, int id) {
-        super(saldo, id);
+    public ContaPoupanca(double rendimento, double saldo, int id) {
+        super(id, saldo, 1);
         this.rendimento = rendimento;
     }
 

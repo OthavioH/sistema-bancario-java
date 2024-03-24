@@ -4,8 +4,21 @@
  */
 package com.mycompany.telas;
 
+import com.mycompany.controllers.UsuarioController;
+import com.mycompany.entities.Conta;
+import com.mycompany.entities.ContaCorrente;
+import com.mycompany.entities.ContaPoupanca;
+import com.mycompany.entities.Usuario;
+import com.mycompany.entities.validation.ViewValidation;
 import java.awt.BorderLayout;
+import java.awt.Label;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.ListModel;
 import javax.swing.SwingUtilities;
 
 /**
@@ -13,12 +26,18 @@ import javax.swing.SwingUtilities;
  * @author alunolages
  */
 public class TelaCriarConta extends javax.swing.JPanel {
-
+    private boolean hasContaCorrente, hasContaPoupanca;
+    private final UsuarioController usuarioController;
+    private final Usuario usuario;
     /**
      * Creates new form TelaCriarConta
+     * @param usuario
      */
-    public TelaCriarConta() {
+    public TelaCriarConta(Usuario usuario) {
         initComponents();
+        this.usuario = usuario;
+        this.usuarioController = new UsuarioController();
+        initContasExistentes();
     }
 
     /**
@@ -33,15 +52,17 @@ public class TelaCriarConta extends javax.swing.JPanel {
         jbCancelar = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
+        jlCorrente = new javax.swing.JLabel();
+        jlPoupanca = new javax.swing.JLabel();
+        jlSaldoTextCorrente = new javax.swing.JLabel();
+        jlSaldoTextPoupanca = new javax.swing.JLabel();
+        jlValorSaldo = new javax.swing.JLabel();
+        jlValorPoupanca = new javax.swing.JLabel();
         jbConcluir = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
+        jlTipoContaDisponivel = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jltContasDisponiveis = new javax.swing.JList<>();
         jPanel7 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jbSair = new javax.swing.JButton();
@@ -73,23 +94,23 @@ public class TelaCriarConta extends javax.swing.JPanel {
         jPanel5.setBackground(new java.awt.Color(204, 204, 255));
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), " Conta(as) Existentes: ", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel4.setText("Corrente:");
+        jlCorrente.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jlCorrente.setText("Corrente:");
 
-        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel7.setText("Poupança:");
+        jlPoupanca.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jlPoupanca.setText("Poupança:");
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel8.setText("Saldo: R$");
+        jlSaldoTextCorrente.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jlSaldoTextCorrente.setText("Saldo: R$");
 
-        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel9.setText("Saldo: R$");
+        jlSaldoTextPoupanca.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jlSaldoTextPoupanca.setText("Saldo: R$");
 
-        jLabel10.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel10.setText("jLabel10");
+        jlValorSaldo.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jlValorSaldo.setText("0");
 
-        jLabel11.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel11.setText("jLabel10");
+        jlValorPoupanca.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jlValorPoupanca.setText("0");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -99,31 +120,31 @@ public class TelaCriarConta extends javax.swing.JPanel {
                 .addGap(14, 14, 14)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel7)
+                        .addComponent(jlPoupanca)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel9)
+                        .addComponent(jlSaldoTextPoupanca)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel11))
+                        .addComponent(jlValorPoupanca))
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
+                        .addComponent(jlCorrente)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel8)
+                        .addComponent(jlSaldoTextCorrente)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel10)))
+                        .addComponent(jlValorSaldo)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel10))
+                    .addComponent(jlCorrente, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jlSaldoTextCorrente)
+                    .addComponent(jlValorSaldo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel11)))
+                    .addComponent(jlPoupanca, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jlSaldoTextPoupanca)
+                    .addComponent(jlValorPoupanca)))
         );
 
         jbConcluir.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -138,8 +159,10 @@ public class TelaCriarConta extends javax.swing.JPanel {
         jPanel6.setBackground(new java.awt.Color(204, 204, 255));
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), " Criar Conta: ", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
 
-        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel5.setText("Tipo de Conta:");
+        jlTipoContaDisponivel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jlTipoContaDisponivel.setText("Tipo de Conta Disponível:");
+
+        jScrollPane1.setViewportView(jltContasDisponiveis);
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -147,14 +170,20 @@ public class TelaCriarConta extends javax.swing.JPanel {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel5)
-                .addContainerGap(201, Short.MAX_VALUE))
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(jlTipoContaDisponivel)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(93, Short.MAX_VALUE))
+                .addComponent(jlTipoContaDisponivel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel7.setBackground(new java.awt.Color(0, 153, 153));
@@ -202,7 +231,7 @@ public class TelaCriarConta extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jbCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                         .addComponent(jbConcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -225,42 +254,101 @@ public class TelaCriarConta extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void initContasExistentes() {
+        DefaultListModel demoList = new DefaultListModel();
+        
+        ContaCorrente contaCorrente = usuarioController.getUsuarioContaCorrente(this.usuario.getCpf());
+        if (contaCorrente == null){
+            hasContaCorrente = false;
+            jlCorrente.setVisible(false);
+            jlSaldoTextCorrente.setVisible(false);
+            jlValorSaldo.setVisible(false);
+            demoList.addElement("Conta Corrente");
+        }
+        else {
+            hasContaCorrente = true;
+            jlValorSaldo.setText(String.valueOf(contaCorrente.getSaldo()));
+        }
+        
+        ContaPoupanca contaPoupanca = usuarioController.getUsuarioContaPoupanca(this.usuario.getCpf());
+        if (contaPoupanca == null) {
+            hasContaPoupanca = false;
+            jlPoupanca.setVisible(false);
+            jlSaldoTextPoupanca.setVisible(false);
+            jlValorPoupanca.setVisible(false);
+            demoList.addElement("Poupança");
+        }
+        else {
+            hasContaPoupanca = true;
+            jlValorPoupanca.setText(String.valueOf(contaPoupanca.getSaldo()));
+        }
+        
+        if (hasContaCorrente && hasContaPoupanca){
+            this.jltContasDisponiveis.removeAll();
+            this.jltContasDisponiveis.setVisible(false);
+            this.jlTipoContaDisponivel.setText("Você não tem nenhum tipo de conta disponível.");
+        }
+        else {
+            this.jltContasDisponiveis.setModel(demoList);
+        }
+    }
+    
     private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
-        Janela.telaInicial = new TelaInicial();
-        JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);
-        janela.getContentPane().remove(Janela.telaCriarConta);
-        janela.add(Janela.telaInicial, BorderLayout.CENTER);
-        janela.pack();
+        this.irParaTelaInicial();
     }//GEN-LAST:event_jbCancelarActionPerformed
 
     private void jbConcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbConcluirActionPerformed
-        Janela.telaInicial = new TelaInicial();
+        if (hasContaCorrente && hasContaPoupanca){
+            this.irParaTelaInicial();
+            return;
+        }
+        
+        String contaSelectionada = this.jltContasDisponiveis.getSelectedValue();
+        int tipoConta = 0;
+        if (contaSelectionada.contains("Poupança")){
+            tipoConta = 1;
+        }
+
+        boolean isContaCriada = this.usuarioController.criarNovaConta(usuario, tipoConta);
+        if (!isContaCriada){
+            JOptionPane.showMessageDialog(null, "Erro ao tentar criar uma nova conta.\nTente novamente mais tarde.", "Erro",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        JOptionPane.showMessageDialog(null, "Nova conta criada!");
+        this.irParaTelaInicial();
+    }//GEN-LAST:event_jbConcluirActionPerformed
+
+    private void irParaTelaInicial() {
+        Janela.telaInicial = new TelaInicial(this.usuario);
         JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);
         janela.getContentPane().remove(Janela.telaCriarConta);
         janela.add(Janela.telaInicial, BorderLayout.CENTER);
         janela.pack();
-    }//GEN-LAST:event_jbConcluirActionPerformed
-
+    }
+    
     private void jbSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSairActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jbSairActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbCancelar;
     private javax.swing.JButton jbConcluir;
     private javax.swing.JButton jbSair;
+    private javax.swing.JLabel jlCorrente;
+    private javax.swing.JLabel jlPoupanca;
+    private javax.swing.JLabel jlSaldoTextCorrente;
+    private javax.swing.JLabel jlSaldoTextPoupanca;
+    private javax.swing.JLabel jlTipoContaDisponivel;
+    private javax.swing.JLabel jlValorPoupanca;
+    private javax.swing.JLabel jlValorSaldo;
+    private javax.swing.JList<String> jltContasDisponiveis;
     // End of variables declaration//GEN-END:variables
 }

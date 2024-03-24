@@ -5,6 +5,7 @@
 package com.mycompany.repositories;
 
 import com.mycompany.data.ConexaoDB;
+import com.mycompany.entities.Conta;
 import com.mycompany.entities.Usuario;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -59,6 +60,7 @@ public class UsuarioRepository {
         
         try {
             PreparedStatement consulta = this.db.prepararQuery("SELECT * FROM usuario WHERE cpf = ? and senha = ? LIMIT 1");
+            
             consulta.setLong(1, cpf);
             consulta.setString(2, senha);
             consulta.execute();

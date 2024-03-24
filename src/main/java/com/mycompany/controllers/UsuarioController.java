@@ -4,10 +4,14 @@
  */
 package com.mycompany.controllers;
 
+import com.mycompany.entities.Conta;
+import com.mycompany.entities.ContaCorrente;
+import com.mycompany.entities.ContaPoupanca;
 import com.mycompany.entities.Usuario;
 import com.mycompany.entities.validation.ViewValidation;
-import com.mycompany.entities.validation.ViewValidation;
+import com.mycompany.repositories.ContaRepository;
 import com.mycompany.repositories.UsuarioRepository;
+import java.sql.SQLException;
 import java.util.Arrays;
 import javax.swing.JFormattedTextField;
 import javax.swing.JPasswordField;
@@ -18,13 +22,15 @@ import javax.swing.JTextField;
  * @author othavio
  */
 public class UsuarioController {
-    private UsuarioRepository usuarioRepository;
+    private final UsuarioRepository usuarioRepository;
+    private final ContaRepository contaRepository;
     
     public UsuarioController(){
         this.usuarioRepository = new UsuarioRepository();
+        this.contaRepository = new ContaRepository();
     }
     
-    public ViewValidation<Usuario> cadastrarUsuario(JTextField jtNome,JFormattedTextField jtfCpf, JPasswordField jpSenha) {
+    public ViewValidation<Usuario> cadastrarUsuario(JTextField jtNome,JFormattedTextField jtfCpf, JPasswordField jpSenha, int tipoConta) {
         ViewValidation camposValidados = this.verificarCamposDeCadastro(jtNome,jtfCpf, jpSenha);
         if (camposValidados.hasErro){
             return camposValidados;
@@ -45,10 +51,15 @@ public class UsuarioController {
             return new ViewValidation(true, "Erro ao cadastrar novo usuário.");
         }
         
+        boolean isContaCriada = this.contaRepository.criarNovaConta(usuario, tipoConta);
+        if (!isContaCriada) {
+            return new ViewValidation(true, "Erro ao cadastrar nova conta.");
+        }
+        
         return new ViewValidation(usuario);
         
     }
-    
+       
     public ViewValidation<String> verificarCamposDeCadastro(JTextField jtNome,JFormattedTextField jtfCpf, JPasswordField jpSenha){
         ViewValidation nomeValidado = this.validarCampoNome(jtNome.getText());
         ViewValidation cpfValidado = this.validarCampoCpf(jtfCpf.getText().trim());
@@ -134,5 +145,31 @@ public class UsuarioController {
         if(senha.length < 1) return new ViewValidation(true, "A senha deve ter pelo menos 1 caracter");
         
         return new ViewValidation(false, "");
+    }
+
+    public ContaCorrente getUsuarioContaCorrente(Long cpf) {
+        ContaCorrente contaCorrente = null;
+        try {
+            contaCorrente = this.contaRepository.getUsuarioContaCorrente(cpf);
+        } catch (SQLException e) {
+            System.out.println("Erro ao tentar buscar a conta corrente do usuário");
+        }
+        
+        return contaCorrente;
+    }
+
+    public ContaPoupanca getUsuarioContaPoupanca(Long cpf) {
+        ContaPoupanca contaPoupanca = null;
+        try {
+            contaPoupanca = this.contaRepository.getUsuarioContaPoupanca(cpf);
+        } catch (SQLException e) {
+            System.out.println("Erro ao tentar buscar a conta corrente do usuário");
+        }
+        
+        return contaPoupanca;
+    }
+    
+    public boolean criarNovaConta(Usuario usuario, int tipoConta) {
+        return this.contaRepository.criarNovaConta(usuario, tipoConta);
     }
 }

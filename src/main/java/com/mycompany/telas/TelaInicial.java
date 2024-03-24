@@ -9,6 +9,7 @@ public class TelaInicial extends javax.swing.JPanel {
     public Usuario usuarioLogado;
     public TelaInicial(Usuario usuario){
         this.usuarioLogado = usuario;
+        initComponents();
     }
     
     public TelaInicial() {
@@ -260,7 +261,7 @@ public class TelaInicial extends javax.swing.JPanel {
     }//GEN-LAST:event_jbEmprestimoActionPerformed
 
     private void jbCriarContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCriarContaActionPerformed
-        Janela.telaCriarConta = new TelaCriarConta();                                          
+        Janela.telaCriarConta = new TelaCriarConta(this.usuarioLogado);                                          
         JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);    
         janela.getContentPane().remove(Janela.telaInicial);                          
         janela.add(Janela.telaCriarConta, BorderLayout.CENTER);                         

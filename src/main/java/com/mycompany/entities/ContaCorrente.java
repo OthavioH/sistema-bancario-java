@@ -1,17 +1,17 @@
 package com.mycompany.entities;
 
-public class Corrente extends Conta{
+public class ContaCorrente extends Conta{
     private double limite;
 
-    public Corrente() {
+    public ContaCorrente() {
     }
 
-    public Corrente(double limite) {
+    public ContaCorrente(double limite) {
         this.limite = limite;
     }
 
-    public Corrente(double limite, double saldo, int id) {
-        super(saldo, id);
+    public ContaCorrente(double limite, double saldo, int id) {
+        super(id, saldo, 0);
         this.limite = limite;
     }
 
