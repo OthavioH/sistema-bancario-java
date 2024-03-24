@@ -2,7 +2,8 @@
 package com.mycompany.telas;
 
 import com.mycompany.controllers.UsuarioController;
-import com.mycompany.entities.validation.ViewError;
+import com.mycompany.entities.Usuario;
+import com.mycompany.entities.validation.ViewValidation;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -163,32 +164,23 @@ public class TelaLogin extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLoginActionPerformed
-        boolean camposValidados = this.validarCampos();
-        if (!camposValidados) return;
+        ViewValidation<Usuario> usuario = this.usuarioController.logarUsuario(jtfCpf, jpSenha);
         
-        Long cpf = Long.valueOf(jtfCpf.getText());
-        String senha = new String(jpSenha.getPassword());
-        try {
-            ViewError loginError = usuarioController.logarUsuario(cpf, senha);
-        
-            if(loginError.hasErro){
-                this.jlMensagemErro.setText(loginError.erroMensagem);
-                return;
-            }
-            
-            Janela.telaInicial = new TelaInicial();                                          
-            JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);    
-            janela.getContentPane().remove(Janela.telaLogin);                          
-            janela.add(Janela.telaInicial, BorderLayout.CENTER);                         
-            janela.pack();
-        } catch (Exception e) {
-            this.jlMensagemErro.setText("Erro ao realizar login.");
+        if (usuario.hasErro) {
+            this.jlMensagemErro.setText(usuario.erroMensagem);
+            return;
         }
+        
+        Janela.telaInicial = new TelaInicial(usuario.successValue);                                          
+        JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);    
+        janela.getContentPane().remove(Janela.telaLogin);                          
+        janela.add(Janela.telaInicial, BorderLayout.CENTER);                         
+        janela.pack();
     }//GEN-LAST:event_jbLoginActionPerformed
 
     private boolean validarCampos(){
-        ViewError cpfValidado = usuarioController.validarCampoCpf(jtfCpf.getText().trim());
-        ViewError senhaValidada = usuarioController.validarCampoSenha(jpSenha.getPassword());
+        ViewValidation cpfValidado = usuarioController.validarCampoCpf(jtfCpf.getText().trim());
+        ViewValidation senhaValidada = usuarioController.validarCampoSenha(jpSenha.getPassword());
         
         if (cpfValidado.hasErro){
             jtfCpf.requestFocus();

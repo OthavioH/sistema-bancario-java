@@ -2,7 +2,7 @@ package com.mycompany.telas;
 
 import com.mycompany.controllers.UsuarioController;
 import com.mycompany.entities.Usuario;
-import com.mycompany.entities.validation.ViewError;
+import com.mycompany.entities.validation.ViewValidation;
 import com.mycompany.repositories.UsuarioRepository;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
@@ -179,56 +179,20 @@ public class TelaCriarUsuario extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbCriarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCriarUsuarioActionPerformed
-        boolean isCamposValidados = validarCampos();
-        if (!isCamposValidados) return;
+        ViewValidation<Usuario> usuario = this.usuarioController.cadastrarUsuario(jtNome, jftCpf, jpSenha);
         
-        Long cpf = Long.valueOf(jftCpf.getText());
-        Usuario usuario = this.usuarioRepository.getUsuarioPorCpf(cpf);
-        if (usuario != null){
-            jlMensagemErro.setText("Usuario já cadastrado.");
+        if (usuario.hasErro) {
+            this.jlMensagemErro.setText(usuario.erroMensagem);
             return;
         }
         
-        String senha = new String(jpSenha.getPassword());
-        usuario = new Usuario(jtNome.getText(),cpf, senha);
-        boolean cadastradoComSucesso = this.usuarioRepository.cadastrarNovoUsuario(usuario);
-        
-        if (!cadastradoComSucesso) {
-            jlMensagemErro.setText("Houve um erro ao tentar cadastrar um novo usuário.");
-            return;
-        }
-        
-        Janela.telaInicial = new TelaInicial();
+        Janela.telaInicial = new TelaInicial(usuario.successValue);
         JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);
         janela.getContentPane().remove(Janela.telaCriarUsuario);
         janela.add(Janela.telaInicial, BorderLayout.CENTER);
         janela.pack();
     }//GEN-LAST:event_jbCriarUsuarioActionPerformed
 
-    private boolean validarCampos() {
-        ViewError cpfValidado = usuarioController.validarCampoCpf(jftCpf.getText().trim());
-        ViewError nomeValidado = usuarioController.validarCampoNome(jtNome.getText());
-        ViewError senhaValidada = usuarioController.validarCamposConfirmarSenha(jpSenha.getPassword(), jpConfirmarSenha.getPassword());
-        
-        if (cpfValidado.hasErro){
-            jftCpf.requestFocus();
-            jlMensagemErro.setText(cpfValidado.erroMensagem);
-            return false;
-        }
-        if (nomeValidado.hasErro){
-            jtNome.requestFocus();
-            jlMensagemErro.setText(nomeValidado.erroMensagem);
-            return false;
-        }
-        if (senhaValidada.hasErro){
-            jpSenha.requestFocus();
-            jlMensagemErro.setText(senhaValidada.erroMensagem);
-            return false;
-        }
-        
-        jlMensagemErro.setText("");
-        return true;
-    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

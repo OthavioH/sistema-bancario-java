@@ -1,10 +1,16 @@
 package com.mycompany.telas;
 
+import com.mycompany.entities.Usuario;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 public class TelaInicial extends javax.swing.JPanel {
+    public Usuario usuarioLogado;
+    public TelaInicial(Usuario usuario){
+        this.usuarioLogado = usuario;
+    }
+    
     public TelaInicial() {
         initComponents();
     }

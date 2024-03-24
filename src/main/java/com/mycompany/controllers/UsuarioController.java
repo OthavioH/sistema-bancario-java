@@ -5,8 +5,13 @@
 package com.mycompany.controllers;
 
 import com.mycompany.entities.Usuario;
-import com.mycompany.entities.validation.ViewError;
+import com.mycompany.entities.validation.ViewValidation;
+import com.mycompany.entities.validation.ViewValidation;
 import com.mycompany.repositories.UsuarioRepository;
+import java.util.Arrays;
+import javax.swing.JFormattedTextField;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
 /**
  *
@@ -19,44 +24,115 @@ public class UsuarioController {
         this.usuarioRepository = new UsuarioRepository();
     }
     
-    public ViewError logarUsuario(Long cpf, String senha) {
+    public ViewValidation<Usuario> cadastrarUsuario(JTextField jtNome,JFormattedTextField jtfCpf, JPasswordField jpSenha) {
+        ViewValidation camposValidados = this.verificarCamposDeCadastro(jtNome,jtfCpf, jpSenha);
+        if (camposValidados.hasErro){
+            return camposValidados;
+        }
+        
+        Long cpf = Long.valueOf(jtfCpf.getText());
+        Usuario usuario = this.usuarioRepository.getUsuarioPorCpf(cpf);
+        
+        if (usuario != null){
+            return new ViewValidation(true, "Usuário já cadastrado.");
+        }
+        
+        String senha = new String(jpSenha.getPassword());
+        usuario = new Usuario(jtNome.getText(),cpf, senha);
+        boolean cadastradoComSucesso = this.usuarioRepository.cadastrarNovoUsuario(usuario);
+        
+        if (!cadastradoComSucesso) {
+            return new ViewValidation(true, "Erro ao cadastrar novo usuário.");
+        }
+        
+        return new ViewValidation(usuario);
+        
+    }
+    
+    public ViewValidation<String> verificarCamposDeCadastro(JTextField jtNome,JFormattedTextField jtfCpf, JPasswordField jpSenha){
+        ViewValidation nomeValidado = this.validarCampoNome(jtNome.getText());
+        ViewValidation cpfValidado = this.validarCampoCpf(jtfCpf.getText().trim());
+        ViewValidation senhaValidada = this.validarCampoSenha(jpSenha.getPassword());
+        
+        if (cpfValidado.hasErro){
+            jtfCpf.requestFocus();
+            return cpfValidado;
+        }
+        if (nomeValidado.hasErro){
+            jtNome.requestFocus();
+            return nomeValidado;
+        }
+        if (senhaValidada.hasErro){
+            jpSenha.requestFocus();
+            return senhaValidada;
+        }
+        
+        return new ViewValidation("Usuário validado com sucesso");
+    }
+    
+    public ViewValidation<Usuario> logarUsuario(JFormattedTextField jtfCpf, JPasswordField jpSenha) {
+        ViewValidation camposValidados = this.verificarCamposDeLogin(jtfCpf, jpSenha);
+        
+        if (camposValidados.hasErro) {
+            return camposValidados;
+        }
+        
+        Long cpf = Long.valueOf(jtfCpf.getText());
+        String senha = new String(jpSenha.getPassword());
+        
         Usuario usuario = this.usuarioRepository.getUsuarioLogin(cpf, senha);
         
-        if (usuario == null) return new ViewError(true, "Usuário ou senha incorretos");
+        if (usuario == null) return new ViewValidation(true, "Usuário ou senha incorretos");
         
-        return new ViewError(false, "");
+        return new ViewValidation(usuario);
     }
     
-    public ViewError validarCamposConfirmarSenha(char[] senha, char[] confirmarSenha) {
-        ViewError campoSenhaValidacao = validarCampoSenha(senha);
+    public ViewValidation<String> verificarCamposDeLogin(JFormattedTextField jtfCpf, JPasswordField jpSenha){
+        ViewValidation cpfValidado = this.validarCampoCpf(jtfCpf.getText().trim());
+        ViewValidation senhaValidada = this.validarCampoSenha(jpSenha.getPassword());
+        
+        if (cpfValidado.hasErro){
+            jtfCpf.requestFocus();
+            return cpfValidado;
+        }
+        if (senhaValidada.hasErro){
+            jpSenha.requestFocus();
+            return senhaValidada;
+        }
+        
+        return new ViewValidation("Usuário validado com sucesso");
+    }
+    
+    public ViewValidation validarCamposConfirmarSenha(char[] senha, char[] confirmarSenha) {
+        ViewValidation campoSenhaValidacao = validarCampoSenha(senha);
         if (campoSenhaValidacao.hasErro) return campoSenhaValidacao;
         
-        if(confirmarSenha.length < 1) return new ViewError(true, "As senhas não podem ser vazias");
+        if(confirmarSenha.length < 1) return new ViewValidation(true, "As senhas não podem ser vazias");
         
-        if (!senha.equals(confirmarSenha)) return new ViewError(true, "As senhas não são compatíveis");
+        if (!Arrays.equals(senha, confirmarSenha)) return new ViewValidation(true, "As senhas não são compatíveis");
         
-        return new ViewError(false, "");
+        return new ViewValidation("Usuario registrado com sucesso");
     }
     
-    public ViewError validarCampoNome(String nome) {
+    public ViewValidation validarCampoNome(String nome) {
         
-        if(nome.length() < 1) return new ViewError(true, "Você deve inserir um nome");
+        if(nome.length() < 1) return new ViewValidation(true, "Você deve inserir um nome");
         
-        return new ViewError(false, "");
+        return new ViewValidation(false, "");
     }
     
-    public ViewError validarCampoCpf(String campoCpf) {
+    public ViewValidation validarCampoCpf(String campoCpf) {
         String cpfInvalidoMensagem = "CPF Inválido";
         
-        if (campoCpf.isEmpty() | campoCpf.length() != 11) return new ViewError(true, cpfInvalidoMensagem);
+        if (campoCpf.isEmpty() | campoCpf.length() != 11) return new ViewValidation(true, cpfInvalidoMensagem);
         
-        return new ViewError(false, "");
+        return new ViewValidation(false, "");
     }
 
-    public ViewError validarCampoSenha(char[] senha) {
+    public ViewValidation validarCampoSenha(char[] senha) {
         
-        if(senha.length < 1) return new ViewError(true, "A senha deve ter pelo menos 1 caracter");
+        if(senha.length < 1) return new ViewValidation(true, "A senha deve ter pelo menos 1 caracter");
         
-        return new ViewError(false, "");
+        return new ViewValidation(false, "");
     }
 }

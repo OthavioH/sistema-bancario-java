@@ -8,13 +8,19 @@ package com.mycompany.entities.validation;
  *
  * @author ots
  */
-public class ViewError {
+public class ViewValidation<T>{
     public boolean hasErro;
     public String erroMensagem;
+    public T successValue;
     
-    public ViewError(boolean hasErro, String erroMensagem) {
+    public ViewValidation(boolean hasErro, String erroMensagem) {
         this.hasErro = hasErro;
         this.erroMensagem = erroMensagem;
+    }
+    
+    public ViewValidation(T success) {
+        this.successValue = success;
+        this.hasErro = false;
     }
     
 }
