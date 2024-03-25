@@ -162,6 +162,8 @@ public class TelaCriarConta extends javax.swing.JPanel {
         jlTipoContaDisponivel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jlTipoContaDisponivel.setText("Tipo de Conta Disponível:");
 
+        jltContasDisponiveis.setBackground(new java.awt.Color(204, 204, 255));
+        jltContasDisponiveis.setBorder(null);
         jScrollPane1.setViewportView(jltContasDisponiveis);
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
