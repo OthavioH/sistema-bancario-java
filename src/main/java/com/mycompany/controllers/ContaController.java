@@ -9,6 +9,8 @@ import com.mycompany.entities.ContaCorrente;
 import com.mycompany.entities.ContaPoupanca;
 import com.mycompany.repositories.ContaRepository;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -30,6 +32,17 @@ public class ContaController {
         }
         
         return conta;
+    }
+    
+    public List<Conta> getUsuarioContas(Long cpf) {
+        List<Conta> listaContas = new ArrayList<>();
+        try {
+            listaContas = this.contaRepository.getUsuarioContas(cpf);
+        } catch (SQLException e) {
+            System.out.println("Erro ao tentar buscar a conta corrente do usuário");
+        }
+        
+        return listaContas;
     }
     
     public ContaCorrente getUsuarioContaCorrente(Long cpf) {

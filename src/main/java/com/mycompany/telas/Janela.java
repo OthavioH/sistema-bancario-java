@@ -12,6 +12,7 @@ public class Janela extends javax.swing.JFrame {
     static TelaExtrato telaExtrato;
     static TelaCriarConta telaCriarConta;
     static TelaApagarConta telaApagarConta;
+    static TelaEscolhaConta telaEscolherConta;
     
     public Janela() {
         initComponents();

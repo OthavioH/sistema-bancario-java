@@ -4,10 +4,16 @@
  */
 package com.mycompany.telas;
 
+import com.mycompany.controllers.ContaController;
 import com.mycompany.controllers.UsuarioController;
+import com.mycompany.entities.Conta;
+import com.mycompany.entities.Usuario;
 import java.awt.BorderLayout;
+import java.util.Iterator;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -18,17 +24,36 @@ import javax.swing.SwingUtilities;
  */
 public class TelaEscolhaConta extends javax.swing.JFrame {
     boolean hasContaCorrente, hasContaPoupanca;
-    private final UsuarioController usuarioController;
+    private final Usuario usuario;
+    private final ContaController contaController;
     /**
      * Creates new form TelaEscolhaConta
      */
-    public TelaEscolhaConta() {
+    public TelaEscolhaConta(Usuario usuario) {
         initComponents();
-        this.usuarioController = new UsuarioController();
+        this.usuario = usuario;
+        this.contaController = new ContaController();
         initListaContas();
     }
     
+    public TelaEscolhaConta(){
+        usuario = null;
+        contaController = new ContaController();
+    }
+    
     private void initListaContas() {
+        DefaultListModel modelList = new DefaultListModel();
+        List<Conta> listaContas = this.contaController.getUsuarioContas(usuario.getCpf());
+                  
+        for (Conta conta : listaContas) {
+            String tipoConta = conta.getTipoConta() == 0 ? "Conta Corrente" : "Poupança";
+            String itemText = "Conta "+conta.getId() + " - " + tipoConta;
+            
+            modelList.addElement(itemText);
+        }
+        
+        
+        this.jltContas.setModel(modelList);
         
     }
 
@@ -187,8 +212,8 @@ public class TelaEscolhaConta extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void irParaTelaInicial() {
-        Janela.telaInicial = new TelaInicial();
+    private void irParaTelaInicial(Conta conta) {
+        Janela.telaInicial = new TelaInicial(conta, usuario);
         JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);
         janela.getContentPane().remove(Janela.telaCriarConta);
         janela.add(Janela.telaInicial, BorderLayout.CENTER);
@@ -198,8 +223,9 @@ public class TelaEscolhaConta extends javax.swing.JFrame {
     private void jbConcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbConcluirActionPerformed
         String contaSelectionada = this.jltContas.getSelectedValue();
         int contaId = this.getContaId(contaSelectionada);
-
-        this.irParaTelaInicial();
+        Conta conta = this.contaController.getContaById(contaId);
+        if (conta == null) return;
+        this.irParaTelaInicial(conta);
     }//GEN-LAST:event_jbConcluirActionPerformed
 
     private int getContaId(String contaText) {
