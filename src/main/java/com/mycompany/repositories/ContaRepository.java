@@ -108,5 +108,23 @@ public class ContaRepository {
         query.executeUpdate();
     }
 
+    public Conta getUsuarioContaById(int contaId) throws SQLException{
+        Conta conta = null;
+        PreparedStatement query = db.prepararQuery("INSERT INTO ContaPoupanca (conta_id,conta_usuario_cpf) values (?,?)", Statement.RETURN_GENERATED_KEYS);
+        
+        query.setInt(1,contaId);
+        
+        query.execute();
+        
+        ResultSet results = query.getResultSet();
+        
+        while(results.next()) {
+            conta = new Conta();
+            conta.setId(contaId);
+            conta.setSaldo(results.getDouble("saldo"));
+            conta.setTipoConta(results.getInt("tipo_conta"));
+        }
+    }
+
     
 }
