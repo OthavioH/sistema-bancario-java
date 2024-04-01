@@ -13,10 +13,12 @@ public class TelaInicial extends javax.swing.JPanel {
     private UsuarioController usuarioController;
     public Conta contaUsuario;
     
-    public TelaInicial(Usuario usuario){
+    public TelaInicial(Conta conta, Usuario usuario) {
         this.usuarioController = new UsuarioController();
+        this.contaUsuario = conta;
         this.usuarioLogado = usuario;
         initComponents();
+        
         this.jlNome.setText(this.usuarioLogado.getNome());
         
         this.changeSaldo();
@@ -231,11 +233,6 @@ public class TelaInicial extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void changeSaldo() {
-        contaUsuario = this.usuarioController.getUsuarioContaCorrente(usuarioLogado.getCpf());
-        
-        if (contaUsuario == null) {
-            contaUsuario = this.usuarioController.getUsuarioContaPoupanca(usuarioLogado.getCpf());
-        }
         
         this.jlSaldoAtual.setText(String.valueOf(contaUsuario.getSaldo()));
     }
@@ -281,7 +278,7 @@ public class TelaInicial extends javax.swing.JPanel {
     }//GEN-LAST:event_jbEmprestimoActionPerformed
 
     private void jbCriarContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCriarContaActionPerformed
-        Janela.telaCriarConta = new TelaCriarConta(this.usuarioLogado);                                          
+        Janela.telaCriarConta = new TelaCriarConta(this.contaUsuario,this.usuarioLogado);                                          
         JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);    
         janela.getContentPane().remove(Janela.telaInicial);                          
         janela.add(Janela.telaCriarConta, BorderLayout.CENTER);                         

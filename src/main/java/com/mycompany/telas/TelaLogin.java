@@ -171,10 +171,10 @@ public class TelaLogin extends javax.swing.JPanel {
             return;
         }
         
-        Janela.telaInicial = new TelaInicial(usuario.successValue);                                          
+        Janela.telaEscolherConta = new TelaEscolhaConta(usuario.successValue);                                          
         JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);    
         janela.getContentPane().remove(Janela.telaLogin);                          
-        janela.add(Janela.telaInicial, BorderLayout.CENTER);                         
+        janela.add(Janela.telaEscolherConta, BorderLayout.CENTER);                         
         janela.pack();
     }//GEN-LAST:event_jbLoginActionPerformed
 

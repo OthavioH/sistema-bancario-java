@@ -13,6 +13,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -106,6 +108,48 @@ public class ContaRepository {
         query.setLong(2, userCpf);
         
         query.executeUpdate();
+    }
+
+    public Conta getUsuarioContaById(int contaId) throws SQLException{
+        Conta conta = null;
+        PreparedStatement query = db.prepararQuery("SELECT * FROM Conta where id = ? LIMIT 1");
+        
+        query.setInt(1,contaId);
+        
+        query.execute();
+        
+        ResultSet results = query.getResultSet();
+        
+        while(results.next()) {
+            conta = new Conta();
+            conta.setId(contaId);
+            conta.setSaldo(results.getDouble("saldo"));
+            conta.setTipoConta(results.getInt("tipo_conta"));
+        }
+        
+        return conta;
+    }
+    
+    public List<Conta> getUsuarioContas(Long cpf) throws SQLException{
+        List<Conta> listaConta = new ArrayList<>();
+        PreparedStatement query = db.prepararQuery("SELECT * FROM Conta where usuario_cpf = ?");
+        
+        query.setLong(1,cpf);
+        
+        query.execute();
+        
+        ResultSet results = query.getResultSet();
+        
+        while(results.next()) {
+            Conta conta = new Conta();
+            conta.setId(results.getInt("id"));
+            conta.setSaldo(results.getDouble("saldo"));
+            conta.setTipoConta(results.getInt("tipo_conta"));
+            
+            listaConta.add(conta);
+        }
+        
+        return listaConta;
     }
 
     

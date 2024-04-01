@@ -28,14 +28,16 @@ import javax.swing.SwingUtilities;
 public class TelaCriarConta extends javax.swing.JPanel {
     private boolean hasContaCorrente, hasContaPoupanca;
     private final UsuarioController usuarioController;
+    private final Conta contaAtivaNaTela;
     private final Usuario usuario;
     /**
      * Creates new form TelaCriarConta
      * @param usuario
      */
-    public TelaCriarConta(Usuario usuario) {
+    public TelaCriarConta(Conta conta,Usuario usuario) {
         initComponents();
         this.usuario = usuario;
+        this.contaAtivaNaTela = conta;
         this.usuarioController = new UsuarioController();
         initContasExistentes();
     }
@@ -322,7 +324,7 @@ public class TelaCriarConta extends javax.swing.JPanel {
     }//GEN-LAST:event_jbConcluirActionPerformed
 
     private void irParaTelaInicial() {
-        Janela.telaInicial = new TelaInicial(this.usuario);
+        Janela.telaInicial = new TelaInicial(this.contaAtivaNaTela,this.usuario);
         JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);
         janela.getContentPane().remove(Janela.telaCriarConta);
         janela.add(Janela.telaInicial, BorderLayout.CENTER);
