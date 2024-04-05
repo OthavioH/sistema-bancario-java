@@ -4,6 +4,8 @@
  */
 package com.mycompany.telas;
 
+import com.mycompany.entities.Conta;
+import com.mycompany.entities.Usuario;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -17,7 +19,7 @@ public class TelaEmprestimo extends javax.swing.JPanel {
     /**
      * Creates new form Emprestimo
      */
-    public TelaEmprestimo() {
+    public TelaEmprestimo(Conta conta,Usuario usuario) {
         initComponents();
     }
 

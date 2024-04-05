@@ -26,7 +26,6 @@ com\mycompany\telas\TelaEmprestimo$2.class
 com\mycompany\controllers\ContaController.class
 com\mycompany\telas\TelaApagarConta.class
 com\mycompany\telas\TelaCriarConta$2.class
-com\mycompany\telas\TelaEscolhaConta$4.class
 com\mycompany\telas\TelaApagarConta$3.class
 com\mycompany\telas\TelaPoupanca$3.class
 com\mycompany\telas\TelaCriarConta.class

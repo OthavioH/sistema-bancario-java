@@ -3,6 +3,7 @@ package com.mycompany.telas;
 import com.mycompany.controllers.UsuarioController;
 import com.mycompany.entities.Conta;
 import com.mycompany.entities.ContaCorrente;
+import com.mycompany.entities.ContaPoupanca;
 import com.mycompany.entities.Usuario;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
@@ -22,6 +23,18 @@ public class TelaInicial extends javax.swing.JPanel {
         this.jlNome.setText(this.usuarioLogado.getNome());
         
         this.changeSaldo();
+        
+        //Se usuário não tem conta Poupança o botão poupança fica desabilitado
+        ContaPoupanca contaPoupanca = usuarioController.getUsuarioContaPoupanca(this.usuarioLogado.getCpf());
+        if(contaPoupanca == null){
+            jbPoupanca.setEnabled(false);
+        }
+        
+        //Se usuário não tem conta Corrente o botão empréstimo fica desabilitado
+        ContaCorrente contaCorrente = usuarioController.getUsuarioContaCorrente(this.usuarioLogado.getCpf());
+        if(contaCorrente == null){
+            jbEmprestimo.setEnabled(false);
+        }
     }
     
     public TelaInicial() {
@@ -238,15 +251,11 @@ public class TelaInicial extends javax.swing.JPanel {
     }
     
     private void jbSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSairActionPerformed
-        Janela.telaLogin = new TelaLogin();                                          
-        JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);    
-        janela.getContentPane().remove(Janela.telaInicial);                          
-        janela.add(Janela.telaLogin, BorderLayout.CENTER);                         
-        janela.pack();
+        System.exit(0);
     }//GEN-LAST:event_jbSairActionPerformed
 
     private void jbPoupancaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPoupancaActionPerformed
-        Janela.telaPoupanca = new TelaPoupanca();                                          
+        Janela.telaPoupanca = new TelaPoupanca(this.contaUsuario, this.usuarioLogado);                                          
         JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);    
         janela.getContentPane().remove(Janela.telaInicial);                          
         janela.add(Janela.telaPoupanca, BorderLayout.CENTER);                         
@@ -254,7 +263,7 @@ public class TelaInicial extends javax.swing.JPanel {
     }//GEN-LAST:event_jbPoupancaActionPerformed
 
     private void jbExtratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExtratoActionPerformed
-        Janela.telaExtrato = new TelaExtrato();                                          
+        Janela.telaExtrato = new TelaExtrato(this.contaUsuario, this.usuarioLogado);                                          
         JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);    
         janela.getContentPane().remove(Janela.telaInicial);                          
         janela.add(Janela.telaExtrato, BorderLayout.CENTER);                         
@@ -262,7 +271,7 @@ public class TelaInicial extends javax.swing.JPanel {
     }//GEN-LAST:event_jbExtratoActionPerformed
 
     private void jbTransferenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbTransferenciaActionPerformed
-        Janela.telaTransferencia = new TelaTransferencia();                                          
+        Janela.telaTransferencia = new TelaTransferencia(this.contaUsuario, this.usuarioLogado);                                          
         JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);    
         janela.getContentPane().remove(Janela.telaInicial);                          
         janela.add(Janela.telaTransferencia, BorderLayout.CENTER);                         
@@ -270,7 +279,7 @@ public class TelaInicial extends javax.swing.JPanel {
     }//GEN-LAST:event_jbTransferenciaActionPerformed
 
     private void jbEmprestimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEmprestimoActionPerformed
-        Janela.telaEmprestimo = new TelaEmprestimo();                                          
+        Janela.telaEmprestimo = new TelaEmprestimo(this.contaUsuario, this.usuarioLogado);                                          
         JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);    
         janela.getContentPane().remove(Janela.telaInicial);                          
         janela.add(Janela.telaEmprestimo, BorderLayout.CENTER);                         
@@ -278,7 +287,7 @@ public class TelaInicial extends javax.swing.JPanel {
     }//GEN-LAST:event_jbEmprestimoActionPerformed
 
     private void jbCriarContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCriarContaActionPerformed
-        Janela.telaCriarConta = new TelaCriarConta(this.contaUsuario,this.usuarioLogado);                                          
+        Janela.telaCriarConta = new TelaCriarConta(this.contaUsuario, this.usuarioLogado);                                          
         JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);    
         janela.getContentPane().remove(Janela.telaInicial);                          
         janela.add(Janela.telaCriarConta, BorderLayout.CENTER);                         
@@ -286,7 +295,7 @@ public class TelaInicial extends javax.swing.JPanel {
     }//GEN-LAST:event_jbCriarContaActionPerformed
 
     private void jbApagarContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbApagarContaActionPerformed
-        Janela.telaApagarConta = new TelaApagarConta();                                          
+        Janela.telaApagarConta = new TelaApagarConta(this.contaUsuario, this.usuarioLogado);                                          
         JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);    
         janela.getContentPane().remove(Janela.telaInicial);                          
         janela.add(Janela.telaApagarConta, BorderLayout.CENTER);                         

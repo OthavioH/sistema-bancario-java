@@ -1,12 +1,14 @@
 package com.mycompany.telas;
 
+import com.mycompany.entities.Conta;
+import com.mycompany.entities.Usuario;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 public class TelaPoupanca extends javax.swing.JPanel {
 
-    public TelaPoupanca() {
+    public TelaPoupanca(Conta conta,Usuario usuario) {
         initComponents();
     }
 
