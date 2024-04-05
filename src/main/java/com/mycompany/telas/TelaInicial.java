@@ -7,6 +7,7 @@ import com.mycompany.entities.ContaPoupanca;
 import com.mycompany.entities.Usuario;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 public class TelaInicial extends javax.swing.JPanel {
@@ -251,6 +252,7 @@ public class TelaInicial extends javax.swing.JPanel {
     }
     
     private void jbSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSairActionPerformed
+        int result = JOptionPane.showConfirmDialog(null, "Você tem certeza que quer sair?", "Aviso", JOptionPane.YES_NO_OPTION);
         System.exit(0);
     }//GEN-LAST:event_jbSairActionPerformed
 
