@@ -28,14 +28,16 @@ import javax.swing.SwingUtilities;
 public class TelaCriarConta extends javax.swing.JPanel {
     private boolean hasContaCorrente, hasContaPoupanca;
     private final UsuarioController usuarioController;
+    private final Conta contaAtivaNaTela;
     private final Usuario usuario;
     /**
      * Construtor da TelaCriarConta
      * @param usuario
      */
-    public TelaCriarConta(Usuario usuario) {
+    public TelaCriarConta(Conta conta,Usuario usuario) {
         initComponents();
         this.usuario = usuario;
+        this.contaAtivaNaTela = conta;
         this.usuarioController = new UsuarioController();
         initContasExistentes();
     }
@@ -162,6 +164,8 @@ public class TelaCriarConta extends javax.swing.JPanel {
         jlTipoContaDisponivel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jlTipoContaDisponivel.setText("Tipo de Conta Disponível:");
 
+        jltContasDisponiveis.setBackground(new java.awt.Color(204, 204, 255));
+        jltContasDisponiveis.setBorder(null);
         jScrollPane1.setViewportView(jltContasDisponiveis);
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
@@ -328,7 +332,7 @@ public class TelaCriarConta extends javax.swing.JPanel {
     }//GEN-LAST:event_jbConcluirActionPerformed
 
     private void irParaTelaInicial() {
-        Janela.telaInicial = new TelaInicial(this.usuario);
+        Janela.telaInicial = new TelaInicial(this.contaAtivaNaTela,this.usuario);
         JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);
         janela.getContentPane().remove(Janela.telaCriarConta);
         janela.add(Janela.telaInicial, BorderLayout.CENTER);
@@ -336,7 +340,8 @@ public class TelaCriarConta extends javax.swing.JPanel {
     }
     
     private void jbSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSairActionPerformed
-        // TODO add your handling code here:
+        int result = JOptionPane.showConfirmDialog(null, "Você tem certeza que quer sair?", "Aviso", JOptionPane.YES_NO_OPTION);
+        System.exit(0);
     }//GEN-LAST:event_jbSairActionPerformed
 
 

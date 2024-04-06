@@ -1,16 +1,27 @@
 package com.mycompany.telas;
 
+import com.mycompany.entities.Conta;
+import com.mycompany.entities.Usuario;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 public class TelaPoupanca extends javax.swing.JPanel {
-
+    public Usuario usuarioLogado;
+    public Conta contaUsuario;
+    
     /**
      * Construtor da [TelaPoupanca]
+     * 
+     * @param conta
+     * @param usuario 
      */
-    public TelaPoupanca() {
+    public TelaPoupanca(Conta conta,Usuario usuario) {
         initComponents();
+        
+        this.usuarioLogado = usuario;
+        this.contaUsuario = conta;
     }
 
     @SuppressWarnings("unchecked")
@@ -187,11 +198,12 @@ public class TelaPoupanca extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSairActionPerformed
-        // TODO add your handling code here:
+        int result = JOptionPane.showConfirmDialog(null, "Você tem certeza que quer sair?", "Aviso", JOptionPane.YES_NO_OPTION);
+        System.exit(0);
     }//GEN-LAST:event_jbSairActionPerformed
 
     private void jbConcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbConcluirActionPerformed
-        Janela.telaInicial = new TelaInicial();                                          
+        Janela.telaInicial = new TelaInicial(this.contaUsuario, this.usuarioLogado);                                          
         JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);    
         janela.getContentPane().remove(Janela.telaPoupanca);                          
         janela.add(Janela.telaInicial, BorderLayout.CENTER);                         
@@ -199,7 +211,7 @@ public class TelaPoupanca extends javax.swing.JPanel {
     }//GEN-LAST:event_jbConcluirActionPerformed
 
     private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
-        Janela.telaInicial = new TelaInicial();                                          
+        Janela.telaInicial = new TelaInicial(this.contaUsuario, this.usuarioLogado);                                          
         JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);    
         janela.getContentPane().remove(Janela.telaPoupanca);                          
         janela.add(Janela.telaInicial, BorderLayout.CENTER);                         

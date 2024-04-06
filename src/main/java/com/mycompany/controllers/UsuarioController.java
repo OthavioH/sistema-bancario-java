@@ -34,7 +34,7 @@ public class UsuarioController {
         this.usuarioRepository = new UsuarioRepository();
         this.contaRepository = new ContaRepository();
     }
-    
+ 
     /**
      * Cadastra um novo usuário no banco.
      * @param jtNome

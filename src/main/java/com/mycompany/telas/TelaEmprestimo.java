@@ -4,8 +4,11 @@
  */
 package com.mycompany.telas;
 
+import com.mycompany.entities.Conta;
+import com.mycompany.entities.Usuario;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 /**
@@ -17,7 +20,7 @@ public class TelaEmprestimo extends javax.swing.JPanel {
     /**
      * Construtor da TelaEmprestimo
      */
-    public TelaEmprestimo() {
+    public TelaEmprestimo(Conta conta,Usuario usuario) {
         initComponents();
     }
 
@@ -200,7 +203,8 @@ public class TelaEmprestimo extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSairActionPerformed
-        // TODO add your handling code here:
+        int result = JOptionPane.showConfirmDialog(null, "Você tem certeza que quer sair?", "Aviso", JOptionPane.YES_NO_OPTION);
+        System.exit(0);
     }//GEN-LAST:event_jbSairActionPerformed
 
     private void jbConcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbConcluirActionPerformed

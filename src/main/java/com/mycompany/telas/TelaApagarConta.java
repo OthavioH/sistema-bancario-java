@@ -9,6 +9,7 @@ import com.mycompany.entities.ContaCorrente;
 import com.mycompany.entities.ContaPoupanca;
 import com.mycompany.entities.Usuario;
 import com.mycompany.entities.validation.ViewValidation;
+import com.mycompany.entities.Conta;
 import java.awt.BorderLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
@@ -26,9 +27,11 @@ public class TelaApagarConta extends javax.swing.JPanel {
     
     /**
      * Construtor da TelaApagarConta
-     * @param usuario
+     * 
+     * @param conta
+     * @param usuario 
      */
-    public TelaApagarConta(Usuario usuario) {
+    public TelaApagarConta(Conta conta,Usuario usuario) {
         initComponents();
         this.usuario = usuario;
         this.usuarioController = new UsuarioController();
@@ -241,7 +244,8 @@ public class TelaApagarConta extends javax.swing.JPanel {
     }//GEN-LAST:event_jbApagarContaActionPerformed
 
     private void jbSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSairActionPerformed
-        // TODO add your handling code here:
+        int result = JOptionPane.showConfirmDialog(null, "Você tem certeza que quer sair?", "Aviso", JOptionPane.YES_NO_OPTION);
+        System.exit(0);
     }//GEN-LAST:event_jbSairActionPerformed
 
 
