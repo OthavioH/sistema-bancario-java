@@ -30,7 +30,7 @@ public class UsuarioController {
         this.contaRepository = new ContaRepository();
     }
     
-    public ViewValidation<Usuario> cadastrarUsuario(JTextField jtNome,JFormattedTextField jtfCpf, JPasswordField jpSenha, int tipoConta) {
+    public ViewValidation<Usuario> cadastrarUsuario(JTextField jtNome, JFormattedTextField jtfCpf, JPasswordField jpSenha, int tipoConta) {
         ViewValidation camposValidados = this.verificarCamposDeCadastro(jtNome,jtfCpf, jpSenha);
         if (camposValidados.hasErro){
             return camposValidados;
