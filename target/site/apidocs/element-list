@@ -1,0 +1,7 @@
+com.mycompany.controllers
+com.mycompany.data
+com.mycompany.entities
+com.mycompany.entities.validation
+com.mycompany.repositories
+com.mycompany.sistemabancario
+com.mycompany.telas

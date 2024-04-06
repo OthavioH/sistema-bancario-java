@@ -15,6 +15,13 @@ public class TelaInicial extends javax.swing.JPanel {
     private UsuarioController usuarioController;
     public Conta contaUsuario;
     
+    /**
+     * Construtor da [TelaInicial] que inicializa os componentes e variáveis da
+     * classe.
+     * 
+     * @param conta
+     * @param usuario 
+     */
     public TelaInicial(Conta conta, Usuario usuario) {
         this.usuarioController = new UsuarioController();
         this.contaUsuario = conta;
@@ -34,6 +41,28 @@ public class TelaInicial extends javax.swing.JPanel {
         //Se usuário não tem conta Corrente o botão empréstimo fica desabilitado
         ContaCorrente contaCorrente = usuarioController.getUsuarioContaCorrente(this.usuarioLogado.getCpf());
         if(contaCorrente == null){
+            jbEmprestimo.setEnabled(false);
+        }
+    }
+    
+    public TelaInicial(Usuario usuario) {
+        this.usuarioController = new UsuarioController();
+        this.usuarioLogado = usuario;
+        initComponents();
+        
+        this.jlNome.setText(this.usuarioLogado.getNome());
+        
+        this.changeSaldo();
+        
+        //Se usuário não tem conta Poupança o botão poupança fica desabilitado
+        contaUsuario = usuarioController.getUsuarioContaPoupanca(this.usuarioLogado.getCpf());
+        if(contaUsuario == null){
+            jbPoupanca.setEnabled(false);
+        }
+        
+        //Se usuário não tem conta Corrente o botão empréstimo fica desabilitado
+        contaUsuario = usuarioController.getUsuarioContaCorrente(this.usuarioLogado.getCpf());
+        if(contaUsuario == null){
             jbEmprestimo.setEnabled(false);
         }
     }
@@ -297,7 +326,8 @@ public class TelaInicial extends javax.swing.JPanel {
     }//GEN-LAST:event_jbCriarContaActionPerformed
 
     private void jbApagarContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbApagarContaActionPerformed
-        Janela.telaApagarConta = new TelaApagarConta(this.contaUsuario, this.usuarioLogado);                                          
+        Janela.telaApagarConta = new TelaApagarConta(this.contaUsuario, this.usuarioLogado);    
+        
         JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);    
         janela.getContentPane().remove(Janela.telaInicial);                          
         janela.add(Janela.telaApagarConta, BorderLayout.CENTER);                         

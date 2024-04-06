@@ -31,7 +31,7 @@ public class TelaCriarConta extends javax.swing.JPanel {
     private final Conta contaAtivaNaTela;
     private final Usuario usuario;
     /**
-     * Creates new form TelaCriarConta
+     * Construtor da TelaCriarConta
      * @param usuario
      */
     public TelaCriarConta(Conta conta,Usuario usuario) {
@@ -258,6 +258,10 @@ public class TelaCriarConta extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Verifica quais tipos de conta o usuário ainda não tem vinculadas ao seu CPF
+     * e as insere as opções na lista [jlbContaDisponiveis].
+     */
     private void initContasExistentes() {
         DefaultListModel demoList = new DefaultListModel();
         
@@ -301,6 +305,10 @@ public class TelaCriarConta extends javax.swing.JPanel {
         this.irParaTelaInicial();
     }//GEN-LAST:event_jbCancelarActionPerformed
 
+    /**
+     * Realiza a criação da nova conta.
+     * @param evt 
+     */
     private void jbConcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbConcluirActionPerformed
         if (hasContaCorrente && hasContaPoupanca){
             this.irParaTelaInicial();

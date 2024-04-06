@@ -13,13 +13,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- *
+ * Realiza operações no Banco de Dados da aplicação
+ * 
  * @author othavioh
  */
 public class UsuarioRepository {
     
     ConexaoDB db;
     
+    /**
+     * Construtor da classe UsuarioRepository.
+     */
     public UsuarioRepository () {
         db = new ConexaoDB();
     }
@@ -55,6 +59,13 @@ public class UsuarioRepository {
         return usuario;
     }
     
+    /**
+     * Verifica se o login para o usuário está válido
+     * @param cpf
+     * @param senha
+     * @return [Usuario] logado ou null caso as informações estejam incorretas ou
+     * o CPF não esteja cadastrado no banco.
+     */
     public Usuario getUsuarioLogin(Long cpf, String senha) {
         Usuario usuario = null;
         
@@ -80,6 +91,13 @@ public class UsuarioRepository {
         return usuario;
     }
     
+    /**
+     * Cadastra um novo usuário.
+     * 
+     * @param novoUsuario
+     * @return [true] caso a operação tenha sido realizada com sucesso ou
+     * [false] em caso de falha.
+     */
     public boolean cadastrarNovoUsuario(Usuario novoUsuario) {
         try {
             PreparedStatement query = this.db.prepararQuery("INSERT INTO Usuario(cpf,nome,senha) values (?,?,?)");

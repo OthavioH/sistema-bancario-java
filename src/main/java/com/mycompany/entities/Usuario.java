@@ -1,12 +1,27 @@
 package com.mycompany.entities;
 
+/**
+ * Classe que contém implementações de um Usuario.
+ * 
+ * @author ots
+ */
 public class Usuario {
     private String nome, senha;
     private Long cpf;
 
+    /**
+     * Construtor da classe [Usuario]
+     */
     public Usuario() {
     }
 
+    /**
+     * Construtor da classe [Usuario]
+     * 
+     * @param nome
+     * @param cpf
+     * @param senha 
+     */
     public Usuario(String nome, Long cpf, String senha) {
         this.nome = nome;
         this.cpf = cpf;

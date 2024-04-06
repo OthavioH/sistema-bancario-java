@@ -11,6 +11,12 @@ public class TelaPoupanca extends javax.swing.JPanel {
     public Usuario usuarioLogado;
     public Conta contaUsuario;
     
+    /**
+     * Construtor da [TelaPoupanca]
+     * 
+     * @param conta
+     * @param usuario 
+     */
     public TelaPoupanca(Conta conta,Usuario usuario) {
         initComponents();
         

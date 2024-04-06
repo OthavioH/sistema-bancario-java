@@ -17,13 +17,22 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 public class TelaTransferencia extends javax.swing.JPanel {
+
+    
     public Usuario usuarioLogado;
     public Conta contaUsuario;
     private final UsuarioController usuarioController;
     boolean destinatarioExiste = false, remetenteExiste = false, valorExiste = false, dataExiste = false;
     private String dateFormat;
     
+    /**
+     * Construtor da [TelaTransferencia]
+     * 
+     * @param conta
+     * @param usuario 
+     */
     public TelaTransferencia(Conta conta,Usuario usuario) {
+
         initComponents();
         
         this.usuarioLogado = usuario;
