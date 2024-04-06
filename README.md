@@ -32,7 +32,6 @@ java -cp .\SistemaBancario-1.0.jar com.mycompany.sistemabancario.Main
 - [✓] Registro de usuário
 - [✓] Consultar saldo
 - [✓] Deletar conta
-- [✓] Seleção de conta
 - [x] Transferência
 - [✓] Conta Poupança
 - [✓] Conta Corrente
