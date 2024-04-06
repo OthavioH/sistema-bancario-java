@@ -5,6 +5,7 @@
 package com.mycompany.repositories;
 
 import com.mycompany.data.ConexaoDB;
+import com.mycompany.entities.Conta;
 import com.mycompany.entities.ContaCorrente;
 import com.mycompany.entities.ContaPoupanca;
 import com.mycompany.entities.Emprestimo;
