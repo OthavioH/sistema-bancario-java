@@ -8,6 +8,10 @@ import com.mycompany.entities.Transferencia;
 import com.mycompany.entities.Usuario;
 import com.mycompany.entities.validation.ViewValidation;
 import java.awt.BorderLayout;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -17,6 +21,7 @@ public class TelaTransferencia extends javax.swing.JPanel {
     public Conta contaUsuario;
     private final UsuarioController usuarioController;
     boolean destinatarioExiste = false, remetenteExiste = false, valorExiste = false, dataExiste = false;
+    private String dateFormat;
     
     public TelaTransferencia(Conta conta,Usuario usuario) {
         initComponents();
@@ -46,7 +51,7 @@ public class TelaTransferencia extends javax.swing.JPanel {
         jSeparator1 = new javax.swing.JSeparator();
         jLabel8 = new javax.swing.JLabel();
         jcTipoContaRemetente = new javax.swing.JComboBox<>();
-        jFormattedTextField2 = new javax.swing.JFormattedTextField();
+        jfValor = new javax.swing.JFormattedTextField();
         jPanel7 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jbSair = new javax.swing.JButton();
@@ -58,6 +63,7 @@ public class TelaTransferencia extends javax.swing.JPanel {
 
         jPanel5.setBackground(new java.awt.Color(204, 204, 255));
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), " Saldo Atual: ", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
+        jPanel5.setForeground(new java.awt.Color(0, 0, 0));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel4.setText("R$:");
@@ -122,9 +128,9 @@ public class TelaTransferencia extends javax.swing.JPanel {
         jcTipoContaRemetente.setBackground(new java.awt.Color(204, 204, 255));
         jcTipoContaRemetente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Corrente", "Poupança" }));
 
-        jFormattedTextField2.setBackground(new java.awt.Color(204, 204, 255));
-        jFormattedTextField2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
-        jFormattedTextField2.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jfValor.setBackground(new java.awt.Color(204, 204, 255));
+        jfValor.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        jfValor.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -139,7 +145,7 @@ public class TelaTransferencia extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jFormattedTextField2))
+                        .addComponent(jfValor))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -178,7 +184,7 @@ public class TelaTransferencia extends javax.swing.JPanel {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel3)
-                    .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jfValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(19, 19, 19)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -325,13 +331,27 @@ public class TelaTransferencia extends javax.swing.JPanel {
     }
     
     public void verificaValor(){
-        
+        double valor = Double.parseDouble(jfValor.getText());
+        if(valor<=this.contaUsuario.getSaldo()){
+            valorExiste = true;
+        }
     }
     
     public void verificaData(){
-        
+        String test = jfValor.getText();
+        String format = "dd/MM/yyyy";
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        sdf.setLenient(false);
+        try {
+            Date date = sdf.parse(test);
+            if (!sdf.format(date).equals(test)) {
+            throw new ParseException(test + " is not a valid format for " + format, 0);
+            }
+        } catch (ParseException ex) {
+        ex.printStackTrace();
     }
-    
+        
+}
     
     private void jbConcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbConcluirActionPerformed
         verificaDestinatario();
@@ -362,7 +382,10 @@ public class TelaTransferencia extends javax.swing.JPanel {
         String cpfDestinatarioS = jtCPFDestinatario.getText();
         long cpfDestinatario = Long.parseLong(cpfDestinatarioS);
         if(opcaoDestinatario == 0){
-            var contaDestinatario = new ContaCorrente();
+            //pega conta destinatario corrente
+            
+        }else if(opcaoDestinatario == 1){
+            //pega conta destinatario poupança
             
         }
         //var tranferencia = new Transferencia(this.contaUsuario, );
@@ -385,7 +408,6 @@ public class TelaTransferencia extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFormattedTextField jFormattedTextField1;
-    private javax.swing.JFormattedTextField jFormattedTextField2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -404,6 +426,7 @@ public class TelaTransferencia extends javax.swing.JPanel {
     private javax.swing.JButton jbSair;
     private javax.swing.JComboBox<String> jcTipoContaDestinatario;
     private javax.swing.JComboBox<String> jcTipoContaRemetente;
+    private javax.swing.JFormattedTextField jfValor;
     private javax.swing.JLabel jlSaldoAtual2;
     private javax.swing.JTextField jtCPFDestinatario;
     // End of variables declaration//GEN-END:variables
