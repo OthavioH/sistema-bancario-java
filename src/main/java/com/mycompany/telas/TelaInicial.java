@@ -2,7 +2,6 @@ package com.mycompany.telas;
 
 import com.mycompany.controllers.UsuarioController;
 import com.mycompany.entities.Conta;
-import com.mycompany.entities.ContaCorrente;
 import com.mycompany.entities.Usuario;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
@@ -13,6 +12,12 @@ public class TelaInicial extends javax.swing.JPanel {
     private UsuarioController usuarioController;
     public Conta contaUsuario;
     
+    /**
+     * Construtor da [TelaInicial] que inicializa os componentes e variáveis da
+     * classe.
+     * 
+     * @param usuario 
+     */
     public TelaInicial(Usuario usuario){
         this.usuarioController = new UsuarioController();
         this.usuarioLogado = usuario;

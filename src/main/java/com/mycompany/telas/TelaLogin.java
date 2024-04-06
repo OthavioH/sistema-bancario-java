@@ -10,6 +10,10 @@ import javax.swing.SwingUtilities;
 
 public class TelaLogin extends javax.swing.JPanel {
     private final UsuarioController usuarioController;
+    
+    /**
+     * Construtor da [TelaLogin] que inicializa os componentes da tela.
+     */
     public TelaLogin() {
         initComponents();
         usuarioController = new UsuarioController();
@@ -163,6 +167,11 @@ public class TelaLogin extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Valida os campos e cria uma nova conta.
+     * 
+     * @param evt 
+     */
     private void jbLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLoginActionPerformed
         ViewValidation<Usuario> usuario = this.usuarioController.logarUsuario(jtfCpf, jpSenha);
         
@@ -178,7 +187,11 @@ public class TelaLogin extends javax.swing.JPanel {
         janela.pack();
     }//GEN-LAST:event_jbLoginActionPerformed
 
-    
+    /**
+     * Navega para a página de criar conta.
+     * 
+     * @param evt 
+     */
     private void jlRegistrarContaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jlRegistrarContaMouseClicked
         Janela.telaCriarUsuario = new TelaCriarUsuario();                                          
         JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);    

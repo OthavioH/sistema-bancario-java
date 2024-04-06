@@ -15,7 +15,7 @@ import javax.swing.SwingUtilities;
 public class TelaEmprestimo extends javax.swing.JPanel {
 
     /**
-     * Creates new form Emprestimo
+     * Construtor da TelaEmprestimo
      */
     public TelaEmprestimo() {
         initComponents();

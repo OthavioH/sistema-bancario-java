@@ -6,6 +6,9 @@ import javax.swing.SwingUtilities;
 
 public class TelaTransferencia extends javax.swing.JPanel {
 
+    /**
+     * Construtor da [TelaTransferencia]
+     */
     public TelaTransferencia() {
         initComponents();
     }

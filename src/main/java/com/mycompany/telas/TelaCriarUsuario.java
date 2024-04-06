@@ -10,6 +10,9 @@ import javax.swing.SwingUtilities;
 public class TelaCriarUsuario extends javax.swing.JPanel {
     private final UsuarioController usuarioController;
     
+    /**
+     * Construtor da TelaCriarUsuario
+     */
     public TelaCriarUsuario() {
         initComponents();
         usuarioController = new UsuarioController();
@@ -74,7 +77,7 @@ public class TelaCriarUsuario extends javax.swing.JPanel {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Sign In");
+        jLabel1.setText("Cadastro de Usuário");
 
         jPanel2.setBackground(new java.awt.Color(0, 153, 153));
 
@@ -203,6 +206,11 @@ public class TelaCriarUsuario extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Valida os campos e cria um novo usuário.
+     * 
+     * @param evt 
+     */
     private void jbCriarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCriarUsuarioActionPerformed
         jlMensagemErro.setText("");
         int tipoConta;

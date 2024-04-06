@@ -21,12 +21,11 @@ import javax.swing.SwingUtilities;
  */
 public class TelaApagarConta extends javax.swing.JPanel {
 
-    private boolean hasContaCorrente, hasContaPoupanca;
     private final UsuarioController usuarioController;
     private final Usuario usuario;
     
     /**
-     * Creates new form TelaApagarConta
+     * Construtor da TelaApagarConta
      * @param usuario
      */
     public TelaApagarConta(Usuario usuario) {
@@ -182,35 +181,23 @@ public class TelaApagarConta extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Insere todas as contas existentes do usuário na lista [jlbContaDisponiveis].
+     */
     private void initContasExistentes() {
         DefaultListModel demoList = new DefaultListModel();
         
         ContaCorrente contaCorrente = usuarioController.getUsuarioContaCorrente(this.usuario.getCpf());
-        if (contaCorrente == null){
-            hasContaCorrente = false;
+        if (contaCorrente != null){
             demoList.addElement("Conta Corrente");
-        }
-        else {
-            hasContaCorrente = true;
         }
         
         ContaPoupanca contaPoupanca = usuarioController.getUsuarioContaPoupanca(this.usuario.getCpf());
-        if (contaPoupanca == null) {
-            hasContaPoupanca = false;
+        if (contaPoupanca != null){
             demoList.addElement("Poupança");
         }
-        else {
-            hasContaPoupanca = true;
-        }
         
-        if (hasContaCorrente && hasContaPoupanca){
-            this.jltContasDisponiveis.removeAll();
-            this.jltContasDisponiveis.setVisible(false);
-            this.jlTipoContaDisponivel.setText("Você não tem nenhum tipo de conta disponível.");
-        }
-        else {
-            this.jltContasDisponiveis.setModel(demoList);
-        }
+        this.jltContasDisponiveis.setModel(demoList);
     }
     
     private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
@@ -221,6 +208,12 @@ public class TelaApagarConta extends javax.swing.JPanel {
         janela.pack();
     }//GEN-LAST:event_jbCancelarActionPerformed
 
+    /**
+     * Apaga a conta do usuário baseado no tipo da conta que foi selecionada
+     * na lista.
+     * 
+     * @param evt 
+     */
     private void jbApagarContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbApagarContaActionPerformed
         String contaSelectionada = this.jltContasDisponiveis.getSelectedValue();
         if(contaSelectionada == null) return;

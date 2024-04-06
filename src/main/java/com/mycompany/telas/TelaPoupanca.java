@@ -6,6 +6,9 @@ import javax.swing.SwingUtilities;
 
 public class TelaPoupanca extends javax.swing.JPanel {
 
+    /**
+     * Construtor da [TelaPoupanca]
+     */
     public TelaPoupanca() {
         initComponents();
     }

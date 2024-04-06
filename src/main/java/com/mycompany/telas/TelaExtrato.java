@@ -15,7 +15,7 @@ import javax.swing.SwingUtilities;
 public class TelaExtrato extends javax.swing.JPanel {
 
     /**
-     * Creates new form Extrato
+     * Construtor da TelaExtrato
      */
     public TelaExtrato() {
         initComponents();

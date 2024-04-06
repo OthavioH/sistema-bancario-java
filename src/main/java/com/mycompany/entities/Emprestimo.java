@@ -5,7 +5,8 @@
 package com.mycompany.entities;
 
 /**
- *
+ * Classe que contém implementações de um Emprestimo
+ * 
  * @author ots
  */
 public class Emprestimo {
@@ -13,14 +14,30 @@ public class Emprestimo {
     private double saldo_disponivel;
     private int conta_id;
 
+    /**
+     * Construtor da classe [Emprestimo]
+     */
     public Emprestimo(){}
     
+    /**
+     * Construtor da classe [Emprestimo]
+     * 
+     * @param id
+     * @param saldo_disponivel
+     * @param conta_id 
+     */
     public Emprestimo(int id, double saldo_disponivel, int conta_id) {
         this.id = id;
         this.saldo_disponivel = saldo_disponivel;
         this.conta_id = conta_id;
     }
 
+    /**
+     * Construtor da classe [Emprestimo]
+     * 
+     * @param id
+     * @param saldo 
+     */
     public Emprestimo(int id, double saldo) {
         this.id = id;
         this.saldo_disponivel = saldo;
