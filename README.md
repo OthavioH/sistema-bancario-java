@@ -28,12 +28,12 @@ java -cp .\SistemaBancario-1.0.jar com.mycompany.sistemabancario.Main
 
 ## Funcionalidades:
 
-- [✓] Login
-- [✓] Registro de usuário
-- [✓] Consultar saldo
-- [✓] Deletar conta
-- [x] Transferência
-- [✓] Conta Poupança
-- [✓] Conta Corrente
-- [x] Extrato da conta
-- [x] Empréstimo
+- [x] Login
+- [x] Registro de usuário
+- [x] Consultar saldo
+- [x] Deletar conta
+- [ ] Transferência
+- [x] Conta Poupança
+- [x] Conta Corrente
+- [ ] Extrato da conta
+- [ ] Empréstimo
