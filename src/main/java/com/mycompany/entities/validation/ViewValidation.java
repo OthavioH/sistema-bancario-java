@@ -7,6 +7,8 @@ package com.mycompany.entities.validation;
 /**
  *
  * @author ots
+ * 
+ * @param <T> determina o tipo do sucesso.
  */
 public class ViewValidation<T>{
     public boolean hasErro;

@@ -8,6 +8,7 @@ import com.mycompany.data.ConexaoDB;
 import com.mycompany.entities.Conta;
 import com.mycompany.entities.ContaCorrente;
 import com.mycompany.entities.ContaPoupanca;
+import com.mycompany.entities.Emprestimo;
 import com.mycompany.entities.Usuario;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -87,6 +88,35 @@ public class ContaRepository {
         }
         
         return contaCorrente;
+    }
+    
+    public Emprestimo getContaEmprestimo(int contaId) throws SQLException {
+        Emprestimo contaCorrente = null;
+        String sqlQuery = "SELECT emp.id, emp.saldo_disponivel from emprestimo emp join conta c on emp.conta_id = c.id where c.id = ?";
+        PreparedStatement query = db.prepararQuery(sqlQuery);
+        
+        query.setInt(1,contaId);
+        query.execute();
+        
+        ResultSet results = query.getResultSet();
+        
+        while(results.next()) {
+            contaCorrente = new Emprestimo();
+            contaCorrente.setId(results.getInt("id"));
+            contaCorrente.setSaldoDisponivel(results.getDouble("saldo_disponivel"));
+        }
+        
+        return contaCorrente;
+    }
+    
+    public boolean deletarConta(int contaId) throws SQLException{
+        String sqlQuery = "DELETE FROM conta WHERE id = ?";
+        PreparedStatement query = db.prepararQuery(sqlQuery);
+        
+        query.setInt(1,contaId);
+        int rowsAffected = query.executeUpdate();
+        if (rowsAffected <= 0) return false;
+        return true;
     }
 
     private void criarNovaContaCorrente(int contaId, Long userCpf) throws SQLException{

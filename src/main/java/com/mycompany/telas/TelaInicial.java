@@ -289,7 +289,7 @@ public class TelaInicial extends javax.swing.JPanel {
     }//GEN-LAST:event_jbCriarContaActionPerformed
 
     private void jbApagarContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbApagarContaActionPerformed
-        Janela.telaApagarConta = new TelaApagarConta();                                          
+        Janela.telaApagarConta = new TelaApagarConta(this.usuarioLogado);                                          
         JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);    
         janela.getContentPane().remove(Janela.telaInicial);                          
         janela.add(Janela.telaApagarConta, BorderLayout.CENTER);                         
