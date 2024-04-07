@@ -261,10 +261,7 @@ public class TelaInicial extends javax.swing.JPanel {
         //Se a conta ativa não for conta Poupança o botão poupança fica desabilitado.
         if(contaUsuario.getTipoConta() != 0){
             jbPoupanca.setEnabled(false);
-            return;
         }
-        //Se a conta ativa for Conta Poupança o botão empréstimo fica desabilitado.
-        jbDeposito.setEnabled(false);
     }
     
     private void jbSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSairActionPerformed

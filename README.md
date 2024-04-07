@@ -4,9 +4,11 @@ Este é um projeto de Sistema Bancário desenvolvido em Java, onde você poderá
 
 - Criar conta
 - Criar conta poupança para fazer seu dinheiro render
+- Selecionar qual conta será utilizada
 - Realizar transferência para outra conta
 - Verificar o extrato da sua conta
-- Realizar empréstimo
+
+> OBS: Ao selecionar uma conta corrente não será possível acessar a conta poupança.
 
 ## Instalação
 
@@ -31,10 +33,15 @@ java -cp .\SistemaBancario-1.0.jar com.mycompany.sistemabancario.Main
 - [x] Login
 - [x] Registro de usuário
 - [x] Consultar saldo
-- [x] Deletar conta
-- [ ] Selecionar Conta
-- [ ] Transferência
+- [x] Selecionar Conta
+- [x] Transferência
 - [x] Conta Poupança
 - [x] Conta Corrente
-- [ ] Extrato da conta
-- [ ] Empréstimo
+- [x] Extrato da conta
+
+## Funcionalidades desejadas e não implementadas
+
+- Empréstimo
+- Deletar conta
+
+> OBS: As funcionalidades de "Empréstimo" e "Deletar conta" foram retiradas por conta de sua complexidade.
