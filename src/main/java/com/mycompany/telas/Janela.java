@@ -5,14 +5,13 @@ import java.awt.BorderLayout;
 public class Janela extends javax.swing.JFrame {
     static TelaLogin telaLogin;
     static TelaInicial telaInicial;
-    static TelaEmprestimo telaEmprestimo;
+    static TelaDeposito telaDeposito;
     static TelaPoupanca telaPoupanca;
     static TelaCriarUsuario telaCriarUsuario;
     static TelaTransferencia telaTransferencia;
     static TelaExtrato telaExtrato;
     static TelaCriarConta telaCriarConta;
-    static TelaApagarConta telaApagarConta;
-    static TelaEscolhaConta telaEscolherConta;
+    static TelaEscolhaConta telaEscolhaConta;
     
     public Janela() {
         initComponents();

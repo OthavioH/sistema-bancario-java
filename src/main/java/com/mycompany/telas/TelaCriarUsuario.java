@@ -40,6 +40,7 @@ public class TelaCriarUsuario extends javax.swing.JPanel {
         jLabel6 = new javax.swing.JLabel();
         jrbContaCorrente = new javax.swing.JRadioButton();
         jrbPoupanca = new javax.swing.JRadioButton();
+        jbVoltar = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(204, 204, 255));
         setPreferredSize(new java.awt.Dimension(330, 360));
@@ -120,6 +121,16 @@ public class TelaCriarUsuario extends javax.swing.JPanel {
         jbgTipoConta.add(jrbPoupanca);
         jrbPoupanca.setText("Poupança");
 
+        jbVoltar.setBackground(new java.awt.Color(0, 204, 204));
+        jbVoltar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jbVoltar.setText("Voltar");
+        jbVoltar.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 102), 3, true));
+        jbVoltar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbVoltarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -130,9 +141,6 @@ public class TelaCriarUsuario extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(121, 121, 121)
-                                .addComponent(jbCriarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addGroup(layout.createSequentialGroup()
                                     .addGap(69, 69, 69)
@@ -168,6 +176,12 @@ public class TelaCriarUsuario extends javax.swing.JPanel {
                 .addGap(0, 0, Short.MAX_VALUE))
             .addComponent(jlMensagemErro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jbVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
+                .addComponent(jbCriarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(69, 69, 69))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -200,7 +214,9 @@ public class TelaCriarUsuario extends javax.swing.JPanel {
                     .addComponent(jrbContaCorrente)
                     .addComponent(jrbPoupanca))
                 .addGap(12, 12, 12)
-                .addComponent(jbCriarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbCriarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(37, 37, 37)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -225,12 +241,20 @@ public class TelaCriarUsuario extends javax.swing.JPanel {
             return;
         }
         
-        Janela.telaEscolherConta = new TelaEscolhaConta(usuario.successValue);
+        Janela.telaEscolhaConta = new TelaEscolhaConta(usuario.successValue);
         JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);
         janela.getContentPane().remove(Janela.telaCriarUsuario);
-        janela.add(Janela.telaEscolherConta, BorderLayout.CENTER);
+        janela.add(Janela.telaEscolhaConta, BorderLayout.CENTER);
         janela.pack();
     }//GEN-LAST:event_jbCriarUsuarioActionPerformed
+
+    private void jbVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVoltarActionPerformed
+        Janela.telaLogin = new TelaLogin();
+        JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);
+        janela.getContentPane().remove(Janela.telaCriarUsuario);
+        janela.add(Janela.telaLogin, BorderLayout.CENTER);
+        janela.pack();
+    }//GEN-LAST:event_jbVoltarActionPerformed
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -243,6 +267,7 @@ public class TelaCriarUsuario extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JButton jbCriarUsuario;
+    private javax.swing.JButton jbVoltar;
     private javax.swing.ButtonGroup jbgTipoConta;
     private javax.swing.JFormattedTextField jftCpf;
     private javax.swing.JLabel jlMensagemErro;

@@ -4,21 +4,15 @@
  */
 package com.mycompany.telas;
 
+import com.mycompany.controllers.ContaController;
 import com.mycompany.controllers.UsuarioController;
-import com.mycompany.entities.Conta;
 import com.mycompany.entities.ContaCorrente;
 import com.mycompany.entities.ContaPoupanca;
 import com.mycompany.entities.Usuario;
-import com.mycompany.entities.validation.ViewValidation;
 import java.awt.BorderLayout;
-import java.awt.Label;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.ListModel;
 import javax.swing.SwingUtilities;
 
 /**
@@ -28,17 +22,19 @@ import javax.swing.SwingUtilities;
 public class TelaCriarConta extends javax.swing.JPanel {
     private boolean hasContaCorrente, hasContaPoupanca;
     private final UsuarioController usuarioController;
-    private final Conta contaAtivaNaTela;
+    private final ContaController contaController;
+    
     private final Usuario usuario;
     /**
      * Construtor da TelaCriarConta
      * @param usuario
      */
-    public TelaCriarConta(Conta conta,Usuario usuario) {
+    public TelaCriarConta(Usuario usuario) {
         initComponents();
         this.usuario = usuario;
-        this.contaAtivaNaTela = conta;
+        
         this.usuarioController = new UsuarioController();
+        this.contaController = new ContaController();
         initContasExistentes();
     }
 
@@ -265,7 +261,7 @@ public class TelaCriarConta extends javax.swing.JPanel {
     private void initContasExistentes() {
         DefaultListModel demoList = new DefaultListModel();
         
-        ContaCorrente contaCorrente = usuarioController.getUsuarioContaCorrente(this.usuario.getCpf());
+        ContaCorrente contaCorrente = contaController.getUsuarioContaCorrente(this.usuario.getCpf());
         if (contaCorrente == null){
             hasContaCorrente = false;
             jlCorrente.setVisible(false);
@@ -278,7 +274,7 @@ public class TelaCriarConta extends javax.swing.JPanel {
             jlValorSaldo.setText(String.valueOf(contaCorrente.getSaldo()));
         }
         
-        ContaPoupanca contaPoupanca = usuarioController.getUsuarioContaPoupanca(this.usuario.getCpf());
+        ContaPoupanca contaPoupanca = contaController.getUsuarioContaPoupanca(this.usuario.getCpf());
         if (contaPoupanca == null) {
             hasContaPoupanca = false;
             jlPoupanca.setVisible(false);
@@ -332,7 +328,7 @@ public class TelaCriarConta extends javax.swing.JPanel {
     }//GEN-LAST:event_jbConcluirActionPerformed
 
     private void irParaTelaInicial() {
-        Janela.telaInicial = new TelaInicial(this.contaAtivaNaTela,this.usuario);
+        Janela.telaInicial = new TelaInicial(this.usuario);
         JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);
         janela.getContentPane().remove(Janela.telaCriarConta);
         janela.add(Janela.telaInicial, BorderLayout.CENTER);

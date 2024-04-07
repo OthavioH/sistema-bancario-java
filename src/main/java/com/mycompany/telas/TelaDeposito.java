@@ -4,9 +4,12 @@
  */
 package com.mycompany.telas;
 
+import com.mycompany.controllers.ContaController;
 import com.mycompany.entities.Conta;
 import com.mycompany.entities.Usuario;
 import java.awt.BorderLayout;
+import java.sql.Date;
+import java.time.LocalDate;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -15,13 +18,23 @@ import javax.swing.SwingUtilities;
  *
  * @author alunolages
  */
-public class TelaEmprestimo extends javax.swing.JPanel {
+public class TelaDeposito extends javax.swing.JPanel {
 
+    private Conta contaSelecionada;
+    private Usuario usuarioLogado;
+    private final ContaController contaController;
+    
     /**
      * Construtor da TelaEmprestimo
+     * 
+     * @param contaSelecionada
      */
-    public TelaEmprestimo(Conta conta,Usuario usuario) {
+    public TelaDeposito(Conta contaSelecionada, Usuario usuarioLogado) {
+        this.contaController = new ContaController();
+        this.usuarioLogado = usuarioLogado;
+        this.contaSelecionada = contaSelecionada;
         initComponents();
+        
     }
 
     /**
@@ -38,19 +51,19 @@ public class TelaEmprestimo extends javax.swing.JPanel {
         jlSaldoAtual = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jlSaldoAtual1 = new javax.swing.JLabel();
+        jfValor = new javax.swing.JFormattedTextField();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jbSair = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        jbConcluir = new javax.swing.JButton();
+        jbDepositar = new javax.swing.JButton();
         jbCancelar = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(204, 204, 255));
         setPreferredSize(new java.awt.Dimension(330, 360));
 
         jPanel3.setBackground(new java.awt.Color(204, 204, 255));
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), " Saldo Atual: ", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), "Saldo Atual", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel1.setText("R$:");
@@ -77,13 +90,13 @@ public class TelaEmprestimo extends javax.swing.JPanel {
         );
 
         jPanel4.setBackground(new java.awt.Color(204, 204, 255));
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), " Empréstimo: ", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), "Depósito", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel2.setText("R$:");
+        jLabel2.setText("Valor:");
 
-        jlSaldoAtual1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jlSaldoAtual1.setText("jLabel2");
+        jfValor.setBackground(new java.awt.Color(204, 204, 255));
+        jfValor.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        jfValor.setText("000");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -93,20 +106,23 @@ public class TelaEmprestimo extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jlSaldoAtual1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jfValor, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
-                .addComponent(jlSaldoAtual1))
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jfValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel2.setBackground(new java.awt.Color(0, 153, 153));
 
         jLabel3.setFont(new java.awt.Font("SWItalt", 1, 18)); // NOI18N
-        jLabel3.setText("Empréstimo");
+        jLabel3.setText("Depósito");
 
         jbSair.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jbSair.setText("Sair");
@@ -124,7 +140,7 @@ public class TelaEmprestimo extends javax.swing.JPanel {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 118, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 189, Short.MAX_VALUE)
                 .addComponent(jbSair, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -150,12 +166,12 @@ public class TelaEmprestimo extends javax.swing.JPanel {
             .addGap(0, 22, Short.MAX_VALUE)
         );
 
-        jbConcluir.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jbConcluir.setText("Concluir");
-        jbConcluir.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 153, 153), 3, true));
-        jbConcluir.addActionListener(new java.awt.event.ActionListener() {
+        jbDepositar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jbDepositar.setText("Depositar");
+        jbDepositar.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 153, 153), 3, true));
+        jbDepositar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbConcluirActionPerformed(evt);
+                jbDepositarActionPerformed(evt);
             }
         });
 
@@ -181,8 +197,8 @@ public class TelaEmprestimo extends javax.swing.JPanel {
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jbCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jbConcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
+                        .addComponent(jbDepositar, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -192,10 +208,10 @@ public class TelaEmprestimo extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbConcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbDepositar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -204,25 +220,40 @@ public class TelaEmprestimo extends javax.swing.JPanel {
 
     private void jbSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSairActionPerformed
         int result = JOptionPane.showConfirmDialog(null, "Você tem certeza que quer sair?", "Aviso", JOptionPane.YES_NO_OPTION);
-        System.exit(0);
+        if(result == 1){
+            System.exit(0);
+        }
+        
     }//GEN-LAST:event_jbSairActionPerformed
 
-    private void jbConcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbConcluirActionPerformed
-        Janela.telaInicial = new TelaInicial();
-        JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);
-        janela.getContentPane().remove(Janela.telaEmprestimo);
-        janela.add(Janela.telaInicial, BorderLayout.CENTER);
-        janela.pack();
-    }//GEN-LAST:event_jbConcluirActionPerformed
+    private void jbDepositarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbDepositarActionPerformed
+        String valorConvertido = jfValor.getText().replace(",", ".");
+        double valorDeposito = Double.parseDouble(valorConvertido);
+        
+        var mudouSaldo = this.contaController.depositarNaConta(contaSelecionada, valorDeposito);
+        
+        if(!mudouSaldo) {
+            JOptionPane.showMessageDialog(null, "Não é possível completar a operação", "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        JOptionPane.showMessageDialog(null, "Depósito realizado com sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        
+        this.irParaTelaInicial();
+    }//GEN-LAST:event_jbDepositarActionPerformed
 
     private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
-        Janela.telaInicial = new TelaInicial();
-        JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);
-        janela.getContentPane().remove(Janela.telaEmprestimo);
-        janela.add(Janela.telaInicial, BorderLayout.CENTER);
-        janela.pack();
+        this.irParaTelaInicial();
     }//GEN-LAST:event_jbCancelarActionPerformed
 
+    
+    private void irParaTelaInicial(){
+        Janela.telaInicial = new TelaInicial(this.contaSelecionada, this.usuarioLogado);
+        JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);
+        janela.getContentPane().remove(Janela.telaDeposito);
+        janela.add(Janela.telaInicial, BorderLayout.CENTER);
+        janela.pack();
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
@@ -233,9 +264,9 @@ public class TelaEmprestimo extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JButton jbCancelar;
-    private javax.swing.JButton jbConcluir;
+    private javax.swing.JButton jbDepositar;
     private javax.swing.JButton jbSair;
+    private javax.swing.JFormattedTextField jfValor;
     private javax.swing.JLabel jlSaldoAtual;
-    private javax.swing.JLabel jlSaldoAtual1;
     // End of variables declaration//GEN-END:variables
 }

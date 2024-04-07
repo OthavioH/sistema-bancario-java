@@ -1,9 +1,7 @@
 package com.mycompany.telas;
 
-import com.mycompany.controllers.UsuarioController;
+import com.mycompany.controllers.ContaController;
 import com.mycompany.entities.Conta;
-import com.mycompany.entities.ContaCorrente;
-import com.mycompany.entities.ContaPoupanca;
 import com.mycompany.entities.Usuario;
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
@@ -12,7 +10,7 @@ import javax.swing.SwingUtilities;
 
 public class TelaInicial extends javax.swing.JPanel {
     public Usuario usuarioLogado;
-    private UsuarioController usuarioController;
+    private final ContaController contaController;
     public Conta contaUsuario;
     
     /**
@@ -23,52 +21,31 @@ public class TelaInicial extends javax.swing.JPanel {
      * @param usuario 
      */
     public TelaInicial(Conta conta, Usuario usuario) {
-        this.usuarioController = new UsuarioController();
+        this.contaController = new ContaController();
         this.contaUsuario = conta;
         this.usuarioLogado = usuario;
         initComponents();
         
         this.jlNome.setText(this.usuarioLogado.getNome());
         
+        verificarTipoConta();
+        
         this.changeSaldo();
         
-        //Se usuário não tem conta Poupança o botão poupança fica desabilitado
-        ContaPoupanca contaPoupanca = usuarioController.getUsuarioContaPoupanca(this.usuarioLogado.getCpf());
-        if(contaPoupanca == null){
-            jbPoupanca.setEnabled(false);
-        }
-        
-        //Se usuário não tem conta Corrente o botão empréstimo fica desabilitado
-        ContaCorrente contaCorrente = usuarioController.getUsuarioContaCorrente(this.usuarioLogado.getCpf());
-        if(contaCorrente == null){
-            jbEmprestimo.setEnabled(false);
-        }
     }
     
     public TelaInicial(Usuario usuario) {
-        this.usuarioController = new UsuarioController();
+        this.contaController = new ContaController();
         this.usuarioLogado = usuario;
         initComponents();
         
         this.jlNome.setText(this.usuarioLogado.getNome());
         
+        // utiliza o primeiro tipo de conta que o usuário tiver
+        this.contaUsuario = this.contaController.getUsuarioContas(usuario.getCpf()).get(0);
+        verificarTipoConta();
         this.changeSaldo();
         
-        //Se usuário não tem conta Poupança o botão poupança fica desabilitado
-        contaUsuario = usuarioController.getUsuarioContaPoupanca(this.usuarioLogado.getCpf());
-        if(contaUsuario == null){
-            jbPoupanca.setEnabled(false);
-        }
-        
-        //Se usuário não tem conta Corrente o botão empréstimo fica desabilitado
-        contaUsuario = usuarioController.getUsuarioContaCorrente(this.usuarioLogado.getCpf());
-        if(contaUsuario == null){
-            jbEmprestimo.setEnabled(false);
-        }
-    }
-    
-    public TelaInicial() {
-        initComponents();
     }
 
     @SuppressWarnings("unchecked")
@@ -79,6 +56,7 @@ public class TelaInicial extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         jlNome = new javax.swing.JLabel();
         jbSair = new javax.swing.JButton();
+        jbSair1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jlSaldoAtual = new javax.swing.JLabel();
@@ -88,10 +66,10 @@ public class TelaInicial extends javax.swing.JPanel {
         jbTransferencia = new javax.swing.JButton();
         jbEmprestimo = new javax.swing.JButton();
         jbCriarConta = new javax.swing.JButton();
-        jbApagarConta = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(204, 204, 255));
-        setPreferredSize(new java.awt.Dimension(330, 360));
+        setMinimumSize(new java.awt.Dimension(350, 0));
+        setPreferredSize(new java.awt.Dimension(380, 360));
 
         jPanel2.setBackground(new java.awt.Color(0, 153, 153));
 
@@ -110,6 +88,15 @@ public class TelaInicial extends javax.swing.JPanel {
             }
         });
 
+        jbSair1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jbSair1.setText("Trocar Conta");
+        jbSair1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 102), 3, true));
+        jbSair1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbSair1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -118,8 +105,10 @@ public class TelaInicial extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jlNome, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jlNome, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jbSair1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jbSair, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -128,7 +117,9 @@ public class TelaInicial extends javax.swing.JPanel {
             .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jbSair)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jbSair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jbSair1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jlNome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -218,15 +209,6 @@ public class TelaInicial extends javax.swing.JPanel {
             }
         });
 
-        jbApagarConta.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jbApagarConta.setText("Apagar Conta");
-        jbApagarConta.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 153, 153), 3, true));
-        jbApagarConta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbApagarContaActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -235,22 +217,19 @@ public class TelaInicial extends javax.swing.JPanel {
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jbEmprestimo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jbPoupanca, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jbExtrato, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 20, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jbEmprestimo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jbPoupanca, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jbExtrato, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jbCriarConta, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jbApagarConta, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jbTransferencia, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(36, 36, 36))))
+                    .addComponent(jbCriarConta, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbTransferencia, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -265,12 +244,10 @@ public class TelaInicial extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbPoupanca, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbApagarConta, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbEmprestimo, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbTransferencia, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jbEmprestimo, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -280,9 +257,22 @@ public class TelaInicial extends javax.swing.JPanel {
         this.jlSaldoAtual.setText(String.valueOf(contaUsuario.getSaldo()));
     }
     
+    private void verificarTipoConta(){
+        //Se a conta ativa não for conta Poupança o botão poupança fica desabilitado.
+        if(contaUsuario.getTipoConta() != 0){
+            jbPoupanca.setEnabled(false);
+            return;
+        }
+        //Se a conta ativa for Conta Poupança o botão empréstimo fica desabilitado.
+        jbEmprestimo.setEnabled(false);
+    }
+    
     private void jbSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSairActionPerformed
         int result = JOptionPane.showConfirmDialog(null, "Você tem certeza que quer sair?", "Aviso", JOptionPane.YES_NO_OPTION);
-        System.exit(0);
+        if(result == 1){
+            System.exit(0);
+        }
+        
     }//GEN-LAST:event_jbSairActionPerformed
 
     private void jbPoupancaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbPoupancaActionPerformed
@@ -294,7 +284,7 @@ public class TelaInicial extends javax.swing.JPanel {
     }//GEN-LAST:event_jbPoupancaActionPerformed
 
     private void jbExtratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExtratoActionPerformed
-        Janela.telaExtrato = new TelaExtrato(this.contaUsuario, this.usuarioLogado);                                          
+        Janela.telaExtrato = new TelaExtrato(this.contaUsuario,this.usuarioLogado);                                          
         JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);    
         janela.getContentPane().remove(Janela.telaInicial);                          
         janela.add(Janela.telaExtrato, BorderLayout.CENTER);                         
@@ -310,29 +300,28 @@ public class TelaInicial extends javax.swing.JPanel {
     }//GEN-LAST:event_jbTransferenciaActionPerformed
 
     private void jbEmprestimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEmprestimoActionPerformed
-        Janela.telaEmprestimo = new TelaEmprestimo(this.contaUsuario, this.usuarioLogado);                                          
+        Janela.telaDeposito = new TelaDeposito(this.contaUsuario, this.usuarioLogado);                                          
         JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);    
         janela.getContentPane().remove(Janela.telaInicial);                          
-        janela.add(Janela.telaEmprestimo, BorderLayout.CENTER);                         
+        janela.add(Janela.telaDeposito, BorderLayout.CENTER);                         
         janela.pack(); 
     }//GEN-LAST:event_jbEmprestimoActionPerformed
 
     private void jbCriarContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCriarContaActionPerformed
-        Janela.telaCriarConta = new TelaCriarConta(this.contaUsuario, this.usuarioLogado);                                          
+        Janela.telaCriarConta = new TelaCriarConta(this.usuarioLogado);                                          
         JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);    
         janela.getContentPane().remove(Janela.telaInicial);                          
         janela.add(Janela.telaCriarConta, BorderLayout.CENTER);                         
         janela.pack(); 
     }//GEN-LAST:event_jbCriarContaActionPerformed
 
-    private void jbApagarContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbApagarContaActionPerformed
-        Janela.telaApagarConta = new TelaApagarConta(this.contaUsuario, this.usuarioLogado);    
-        
+    private void jbSair1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSair1ActionPerformed
+        Janela.telaEscolhaConta = new TelaEscolhaConta(this.usuarioLogado);                                          
         JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);    
         janela.getContentPane().remove(Janela.telaInicial);                          
-        janela.add(Janela.telaApagarConta, BorderLayout.CENTER);                         
-        janela.pack(); 
-    }//GEN-LAST:event_jbApagarContaActionPerformed
+        janela.add(Janela.telaEscolhaConta, BorderLayout.CENTER);                         
+        janela.pack();
+    }//GEN-LAST:event_jbSair1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -341,12 +330,12 @@ public class TelaInicial extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JButton jbApagarConta;
     private javax.swing.JButton jbCriarConta;
     private javax.swing.JButton jbEmprestimo;
     private javax.swing.JButton jbExtrato;
     private javax.swing.JButton jbPoupanca;
     private javax.swing.JButton jbSair;
+    private javax.swing.JButton jbSair1;
     private javax.swing.JButton jbTransferencia;
     private javax.swing.JLabel jlNome;
     private javax.swing.JLabel jlSaldoAtual;

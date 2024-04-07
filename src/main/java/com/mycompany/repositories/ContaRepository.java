@@ -9,6 +9,7 @@ import com.mycompany.entities.Conta;
 import com.mycompany.entities.ContaCorrente;
 import com.mycompany.entities.ContaPoupanca;
 import com.mycompany.entities.Emprestimo;
+import com.mycompany.entities.Transferencia;
 import com.mycompany.entities.Usuario;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -142,23 +143,6 @@ public class ContaRepository {
         
         return contaCorrente;
     }
-    
-    /**
-     * Deleta uma conta.
-     * 
-     * @param contaId
-     * @return [true] ou [false] em caso de falha.
-     * @throws SQLException 
-     */
-    public boolean deletarConta(int contaId) throws SQLException{
-        String sqlQuery = "DELETE FROM conta WHERE id = ?";
-        PreparedStatement query = db.prepararQuery(sqlQuery);
-        
-        query.setInt(1,contaId);
-        int rowsAffected = query.executeUpdate();
-        if (rowsAffected <= 0) return false;
-        return true;
-    }
 
     /**
      * Cria uma nova conta corrente.
@@ -193,6 +177,13 @@ public class ContaRepository {
         query.executeUpdate();
     }
 
+    /**
+     * Busca uma conta no Banco de Dados pelo ID.
+     * 
+     * @param contaId
+     * @return [Conta] ou [null] caso não haja uma conta com esse ID.
+     * @throws SQLException 
+     */
     public Conta getUsuarioContaById(int contaId) throws SQLException{
         Conta conta = null;
         PreparedStatement query = db.prepararQuery("SELECT * FROM Conta where id = ? LIMIT 1");
@@ -213,6 +204,13 @@ public class ContaRepository {
         return conta;
     }
     
+    /**
+     * Retorna todas as contas de um usuário
+     * 
+     * @param cpf
+     * @return Lista de contas do usuário.
+     * @throws SQLException 
+     */
     public List<Conta> getUsuarioContas(Long cpf) throws SQLException{
         List<Conta> listaConta = new ArrayList<>();
         PreparedStatement query = db.prepararQuery("SELECT * FROM Conta where usuario_cpf = ?");
@@ -234,6 +232,84 @@ public class ContaRepository {
         
         return listaConta;
     }
-
+    
+    /**
+     * Cadastrar uma nova transferência no banco
+     * 
+     * @param transferencia
+     * @return [true] ou [false] caso haja um erro.
+     * @throws SQLException 
+     */
+    public boolean cadastrarTransferencia(Transferencia transferencia) throws SQLException {
+        PreparedStatement query = db.prepararQuery("INSERT INTO transferencia (data_transferencia, valor, conta_remetente, conta_destinatario) values(?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+        
+        var dataTransfrencia = new java.sql.Date(transferencia.getData().getTime());
+        System.out.println(dataTransfrencia.toString());
+        query.setDate(1, dataTransfrencia);
+        query.setDouble(2, transferencia.getValor());
+        query.setInt(3, transferencia.getRemetente().getId());
+        query.setInt(4, transferencia.getDestinatario().getId());
+        
+        int affectedRows = query.executeUpdate();
+        
+        return affectedRows > 0;
+    }
+    
+    /**
+     * Muda o saldo de uma conta.
+     * 
+     * @param contaId
+     * @param valor
+     * @return [true] ou [false] caso haja um erro.
+     * @throws SQLException 
+     */
+    public boolean mudarContaSaldo(int contaId, double valor) throws SQLException {
+        PreparedStatement query = db.prepararQuery("UPDATE conta SET saldo = ? WHERE id = ?", Statement.RETURN_GENERATED_KEYS);
+        query.setDouble(1, valor);
+        query.setInt(2, contaId);
+        
+        int affectedRows = query.executeUpdate();
+        
+        return affectedRows > 0;
+    }
+    
+    /**
+     * Retorna todas as transferências de uma conta.
+     * 
+     * @param contaId
+     * @return Lista de transferências da conta.
+     * @throws SQLException 
+     */
+    public List<Transferencia> getContaTransferencias(int contaId) throws SQLException {
+        List<Transferencia> listaTransferencias = new ArrayList<>();
+        PreparedStatement query = db.prepararQuery("SELECT * FROM Transferencia where conta_remetente = ? OR conta_destinatario = ? ORDER BY data_transferencia desc");
+        
+        query.setInt(1,contaId);
+        query.setInt(2,contaId);
+        
+        query.execute();
+        
+        ResultSet results = query.getResultSet();
+        
+        while(results.next()) {
+            var transferencia = new Transferencia();
+            transferencia.setData(results.getDate("data_transferencia"));
+            
+            var contaRemetente = new Conta();
+            contaRemetente.setId(results.getInt("conta_remetente"));
+            transferencia.setRemetente(contaRemetente);
+            
+            var contaDestinatario = new Conta();
+            contaDestinatario.setId(results.getInt("conta_remetente"));
+            
+            transferencia.setDestinatario(contaDestinatario);
+            transferencia.setValor(results.getDouble("valor"));
+            
+            
+            listaTransferencias.add(transferencia);
+        }
+        
+        return listaTransferencias;
+    }
     
 }

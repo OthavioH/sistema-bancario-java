@@ -3,34 +3,43 @@ package com.mycompany.entities;
 import java.util.Date;
 
 public class Transferencia {
-    private Conta transferindo, recebendo;
+    public int id;
+    private Conta remetente, destinatario;
     private double valor;
     private Date data;
 
     public Transferencia() {
     }
 
-    public Transferencia(Conta transferindo, Conta recebendo, double valor, Date data) {
-        this.transferindo = transferindo;
-        this.recebendo = recebendo;
+    public Transferencia(Conta remetente, Conta destinatario, double valor, Date data) {
+        this.remetente = remetente;
+        this.destinatario = destinatario;
         this.valor = valor;
         this.data = data;
     }
 
-    public Conta getTransferindo() {
-        return transferindo;
+    public int getId() {
+        return id;
     }
 
-    public void setTransferindo(Conta transferindo) {
-        this.transferindo = transferindo;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public Conta getRecebendo() {
-        return recebendo;
+    public Conta getRemetente() {
+        return remetente;
     }
 
-    public void setRecebendo(Conta recebendo) {
-        this.recebendo = recebendo;
+    public void setRemetente(Conta remetente) {
+        this.remetente = remetente;
+    }
+
+    public Conta getDestinatario() {
+        return destinatario;
+    }
+
+    public void setDestinatario(Conta destinatario) {
+        this.destinatario = destinatario;
     }
 
     public double getValor() {
@@ -48,5 +57,7 @@ public class Transferencia {
     public void setData(Date data) {
         this.data = data;
     }
+
+    
     
 }

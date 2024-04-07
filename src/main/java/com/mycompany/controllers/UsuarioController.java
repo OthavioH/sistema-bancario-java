@@ -4,22 +4,17 @@
  */
 package com.mycompany.controllers;
 
-import com.mycompany.entities.Conta;
-import com.mycompany.entities.ContaCorrente;
-import com.mycompany.entities.ContaPoupanca;
-import com.mycompany.entities.Emprestimo;
 import com.mycompany.entities.Usuario;
 import com.mycompany.entities.validation.ViewValidation;
 import com.mycompany.repositories.ContaRepository;
 import com.mycompany.repositories.UsuarioRepository;
-import java.sql.SQLException;
 import java.util.Arrays;
 import javax.swing.JFormattedTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 /**
- * Controla, valida e realiza ações no banco de dados.
+ * Controla, valida e realiza ações no banco de dados envolvendo Usuários.
  *
  * @author othavio
  */
@@ -203,40 +198,6 @@ public class UsuarioController {
     }
 
     /**
-     * Procura por uma Conta Corrente com base no CPF do Usuário
-     * @param cpf
-     * @return [ContaCorrente] ou [null] caso não haja nenhuma conta corrente
-     * para este CPF.
-     */
-    public ContaCorrente getUsuarioContaCorrente(Long cpf) {
-        ContaCorrente contaCorrente = null;
-        try {
-            contaCorrente = this.contaRepository.getUsuarioContaCorrente(cpf);
-        } catch (SQLException e) {
-            System.out.println("Erro ao tentar buscar a conta corrente do usuário");
-        }
-        
-        return contaCorrente;
-    }
-    
-    /**
-     * Procura por uma Conta Poupança com base no CPF do Usuário
-     * @param cpf
-     * @return [ContaPoupanca] ou [null] caso não haja nenhuma conta poupança
-     * para este CPF.
-     */
-    public ContaPoupanca getUsuarioContaPoupanca(Long cpf) {
-        ContaPoupanca contaPoupanca = null;
-        try {
-            contaPoupanca = this.contaRepository.getUsuarioContaPoupanca(cpf);
-        } catch (SQLException e) {
-            System.out.println("Erro ao tentar buscar a conta corrente do usuário");
-        }
-        
-        return contaPoupanca;
-    }
-    
-    /**
      * Cria uma nova conta para o usuário baseado no tipo de conta.
      * @param usuario
      * @param tipoConta
@@ -245,33 +206,5 @@ public class UsuarioController {
      */
     public boolean criarNovaConta(Usuario usuario, int tipoConta) {
         return this.contaRepository.criarNovaConta(usuario, tipoConta);
-    }
-    
-    /**
-     * Remove uma conta do usuário baseado no tipo de conta.
-     * @param cpf
-     * @param tipoConta
-     * @return [ViewValidation] que determina se a ação teve sucesso ou falha.
-     */
-    public ViewValidation<String> removerConta(Long cpf, int tipoConta){
-        Conta conta = null;
-        if (tipoConta == 1) conta = this.getUsuarioContaPoupanca(cpf);
-        else conta = this.getUsuarioContaCorrente(cpf);
-        
-        if (conta.getSaldo() > 0) return new ViewValidation(false,"Há saldo nesta conta. Realize uma transferência ou saque antes de removê-la.");
-        
-        try {
-            Emprestimo emprestimo = this.contaRepository.getContaEmprestimo(conta.getId());
-            if(emprestimo != null) return new ViewValidation(false,"Há pendências de empréstimos. Realize o pagamento de seus empréstimos antes de remover a conta.");
-            
-            boolean isContaDeletada = this.contaRepository.deletarConta(conta.getId());
-            
-            if (!isContaDeletada) return new ViewValidation(false, "Erro ao tentar remover a conta.");
-            
-        } catch (SQLException e) {
-            return new ViewValidation(false, "Erro ao tentar validar pendências da conta.");
-        }
-        
-        return new ViewValidation("Conta removida com sucesso.");
     }
 }

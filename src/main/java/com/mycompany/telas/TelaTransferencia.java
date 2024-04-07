@@ -1,42 +1,36 @@
 package com.mycompany.telas;
 
-import com.mycompany.controllers.UsuarioController;
+import com.mycompany.controllers.ContaController;
 import com.mycompany.entities.Conta;
-import com.mycompany.entities.ContaCorrente;
-import com.mycompany.entities.ContaPoupanca;
 import com.mycompany.entities.Transferencia;
 import com.mycompany.entities.Usuario;
-import com.mycompany.entities.validation.ViewValidation;
 import java.awt.BorderLayout;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.sql.Date;
+import java.time.LocalDate;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 public class TelaTransferencia extends javax.swing.JPanel {
     public Usuario usuarioLogado;
-    public Conta contaUsuario;
-    private final UsuarioController usuarioController;
-    boolean destinatarioExiste = false, remetenteExiste = false, valorExiste = false, dataExiste = false;
-    private String dateFormat;
+    public Conta contaAtiva;
+    private final ContaController contaController;
     
     /**
      * Construtor da [TelaTransferencia]
      * 
-     * @param conta
      * @param usuario 
+     * @param contaAtiva
      */
-    public TelaTransferencia(Conta conta,Usuario usuario) {
+    public TelaTransferencia(Conta contaAtiva,Usuario usuario) {
 
         initComponents();
         
         this.usuarioLogado = usuario;
-        this.contaUsuario = conta;
+        this.contaAtiva = contaAtiva;
         
-        usuarioController = new UsuarioController();
+        contaController = new ContaController();
+        this.jlSaldoAtual.setText(String.valueOf(contaAtiva.getSaldo()));
     }
 
     @SuppressWarnings("unchecked")
@@ -45,13 +39,11 @@ public class TelaTransferencia extends javax.swing.JPanel {
 
         jPanel5 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        jlSaldoAtual2 = new javax.swing.JLabel();
+        jlSaldoAtual = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jtCPFDestinatario = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
         jLabel3 = new javax.swing.JLabel();
         jcTipoContaDestinatario = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
@@ -70,13 +62,12 @@ public class TelaTransferencia extends javax.swing.JPanel {
 
         jPanel5.setBackground(new java.awt.Color(204, 204, 255));
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), " Saldo Atual: ", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
-        jPanel5.setForeground(new java.awt.Color(0, 0, 0));
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel4.setText("R$:");
 
-        jlSaldoAtual2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jlSaldoAtual2.setText("jLabel2");
+        jlSaldoAtual.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jlSaldoAtual.setText("jLabel2");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -86,14 +77,14 @@ public class TelaTransferencia extends javax.swing.JPanel {
                 .addGap(14, 14, 14)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jlSaldoAtual2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jlSaldoAtual, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
-                .addComponent(jlSaldoAtual2))
+                .addComponent(jlSaldoAtual))
         );
 
         jPanel6.setBackground(new java.awt.Color(204, 204, 255));
@@ -108,18 +99,6 @@ public class TelaTransferencia extends javax.swing.JPanel {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel1.setText("Valor da transferência:");
-
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel2.setText("Data da transferência:");
-
-        jFormattedTextField1.setBackground(new java.awt.Color(204, 204, 255));
-        try {
-            jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
-        jFormattedTextField1.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        jFormattedTextField1.setText("   /   /    ");
 
         jLabel3.setText("R$");
 
@@ -153,10 +132,6 @@ public class TelaTransferencia extends javax.swing.JPanel {
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jfValor))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jFormattedTextField1))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -192,11 +167,7 @@ public class TelaTransferencia extends javax.swing.JPanel {
                     .addComponent(jLabel1)
                     .addComponent(jLabel3)
                     .addComponent(jfValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(19, 19, 19)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(42, 42, 42))
+                .addGap(83, 83, 83))
         );
 
         jPanel7.setBackground(new java.awt.Color(0, 153, 153));
@@ -273,12 +244,12 @@ public class TelaTransferencia extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jbCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jbConcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jbConcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -288,12 +259,12 @@ public class TelaTransferencia extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbConcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -302,121 +273,78 @@ public class TelaTransferencia extends javax.swing.JPanel {
         int result = JOptionPane.showConfirmDialog(null, "Você tem certeza que quer sair?", "Aviso", JOptionPane.YES_NO_OPTION);
         System.exit(0);
     }//GEN-LAST:event_jbSairActionPerformed
+
     
-    public void verificaDestinatario(){
-        int opcaoDestinatario = jcTipoContaDestinatario.getSelectedIndex();
-        String cpfDestinatarioS = jtCPFDestinatario.getText();
-        long cpfDestinatario = Long.parseLong(cpfDestinatarioS);
-        
-        if(opcaoDestinatario == 0){
-            ContaCorrente contaDestinatarioC = this.usuarioController.getUsuarioContaCorrente(cpfDestinatario);
-            if(contaDestinatarioC!=null){
-                destinatarioExiste = true;
-            }
-        }else if(opcaoDestinatario == 1){
-            ContaPoupanca contaDestinatarioP = this.usuarioController.getUsuarioContaPoupanca(cpfDestinatario);
-            if(contaDestinatarioP!=null){
-                destinatarioExiste = true;
-            }
-        }
+    public boolean verificaSaldoSuficiente(){
+        String valorConvertido = jfValor.getText().replace(",", ".");
+        double valor = Double.parseDouble(valorConvertido);
+        int tipoConta = jcTipoContaRemetente.getSelectedIndex();
+        var contaUsuario = contaController.getUsuarioContaByTipo(usuarioLogado.getCpf(), tipoConta);
+        return valor <= contaUsuario.getSaldo();
     }
-    
-    public void verificaRemetente(){
-        int opcaoRemetente = jcTipoContaRemetente.getSelectedIndex();
-        
-        if(opcaoRemetente == 0){
-            ContaCorrente contaRemetenteC = this.usuarioController.getUsuarioContaCorrente(this.usuarioLogado.getCpf());
-            if(contaRemetenteC!=null){
-                remetenteExiste = true;
-            }
-        }else if(opcaoRemetente == 1){
-            ContaPoupanca contaRemetenteP = this.usuarioController.getUsuarioContaPoupanca(this.usuarioLogado.getCpf());
-            if(contaRemetenteP!=null){
-                remetenteExiste = true;
-            }
-        }
-    }
-    
-    public void verificaValor(){
-        double valor = Double.parseDouble(jfValor.getText());
-        if(valor<=this.contaUsuario.getSaldo()){
-            valorExiste = true;
-        }
-    }
-    
-    public void verificaData(){
-        String test = jfValor.getText();
-        String format = "dd/MM/yyyy";
-        SimpleDateFormat sdf = new SimpleDateFormat(format);
-        sdf.setLenient(false);
-        try {
-            Date date = sdf.parse(test);
-            if (!sdf.format(date).equals(test)) {
-            throw new ParseException(test + " is not a valid format for " + format, 0);
-            }
-        } catch (ParseException ex) {
-        ex.printStackTrace();
-    }
-        
-}
     
     private void jbConcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbConcluirActionPerformed
-        verificaDestinatario();
-        if(destinatarioExiste==false){
-            JOptionPane.showConfirmDialog(null, "Não é possível completar a operação\nA conta do destinatário não existe!!", "Aviso", JOptionPane.OK_OPTION);
-            return;
-        }
-        
-        verificaRemetente();
-        if(remetenteExiste==false){
-            JOptionPane.showConfirmDialog(null, "Não é possível completar a operação\nA sua conta não existe!", "Aviso", JOptionPane.OK_OPTION);
-            return;
-        }
-        
-        verificaValor();
-        if(valorExiste==false){
-            JOptionPane.showConfirmDialog(null, "Não é possível completar a operação\nVocê não tem dinheiro sufuciente!", "Aviso", JOptionPane.OK_OPTION);
-            return;
-        }
-        
-        verificaData();
-        if(dataExiste==false){
-            JOptionPane.showConfirmDialog(null, "Não é possível completar a operação\nA data escolhida é inválida!", "Aviso", JOptionPane.OK_OPTION);
-            return;
-        }
-        
-        int opcaoDestinatario = jcTipoContaDestinatario.getSelectedIndex();
+
+        int tipoContaDestinatario = jcTipoContaDestinatario.getSelectedIndex();
         String cpfDestinatarioS = jtCPFDestinatario.getText();
-        long cpfDestinatario = Long.parseLong(cpfDestinatarioS);
-        if(opcaoDestinatario == 0){
-            //pega conta destinatario corrente
-            
-        }else if(opcaoDestinatario == 1){
-            //pega conta destinatario poupança
-            
-        }
-        //var tranferencia = new Transferencia(this.contaUsuario, );
         
-        Janela.telaInicial = new TelaInicial(this.contaUsuario, this.usuarioLogado);
-        JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);
-        janela.getContentPane().remove(Janela.telaTransferencia);
-        janela.add(Janela.telaInicial, BorderLayout.CENTER);
-        janela.pack();
+        if(cpfDestinatarioS.length() != 11){
+            JOptionPane.showMessageDialog(null, "CPF Inválido", "Erro",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        long cpfDestinatario = Long.parseLong(cpfDestinatarioS);
+        
+        var contaDestinatario = this.contaController.getUsuarioContaByTipo(cpfDestinatario, tipoContaDestinatario);
+        
+        if (contaDestinatario == null){
+            JOptionPane.showMessageDialog(null, "Não é possível completar a operação\nA conta do destinatário não existe!!", "Aviso",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+       
+        if(!verificaSaldoSuficiente()){
+            JOptionPane.showMessageDialog(null, "Não é possível completar a operação\nVocê não tem dinheiro sufuciente!", "Aviso", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        int tipoConta = jcTipoContaRemetente.getSelectedIndex();
+        var contaUsuario = contaController.getUsuarioContaByTipo(usuarioLogado.getCpf(), tipoConta);
+        
+        if(contaUsuario == null){
+            JOptionPane.showMessageDialog(null, "Não é possível completar a operação\nVocê não possui esse tipo de conta!", "Aviso", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        String valorConvertido = jfValor.getText().replace(",", ".");
+        double valorTransferencia = Double.parseDouble(valorConvertido);
+        Date dataTransferencia = Date.valueOf(LocalDate.now());
+        
+        var tranferencia = new Transferencia(contaUsuario, contaDestinatario, valorTransferencia, dataTransferencia);
+        var isTransferenciaRealizada = this.contaController.realizarTransferencia(tranferencia);
+        if (!isTransferenciaRealizada){
+            JOptionPane.showMessageDialog(null, "Não é possível completar a operação", "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        JOptionPane.showMessageDialog(null, "Transferência realizada com sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        
+        this.irParaTelaInicial();
     }//GEN-LAST:event_jbConcluirActionPerformed
 
     private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
-        Janela.telaInicial = new TelaInicial(this.contaUsuario, this.usuarioLogado);
+        this.irParaTelaInicial();
+    }//GEN-LAST:event_jbCancelarActionPerformed
+
+    private void irParaTelaInicial(){
+        Janela.telaInicial = new TelaInicial(this.contaAtiva,this.usuarioLogado);
         JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);
         janela.getContentPane().remove(Janela.telaTransferencia);
         janela.add(Janela.telaInicial, BorderLayout.CENTER);
         janela.pack();
-    }//GEN-LAST:event_jbCancelarActionPerformed
-
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -434,7 +362,7 @@ public class TelaTransferencia extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> jcTipoContaDestinatario;
     private javax.swing.JComboBox<String> jcTipoContaRemetente;
     private javax.swing.JFormattedTextField jfValor;
-    private javax.swing.JLabel jlSaldoAtual2;
+    private javax.swing.JLabel jlSaldoAtual;
     private javax.swing.JTextField jtCPFDestinatario;
     // End of variables declaration//GEN-END:variables
 }

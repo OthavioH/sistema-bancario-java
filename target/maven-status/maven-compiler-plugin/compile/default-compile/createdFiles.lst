@@ -7,11 +7,10 @@ com\mycompany\telas\TelaExtrato$2.class
 com\mycompany\telas\TelaInicial$1.class
 com\mycompany\data\ConexaoDB.class
 com\mycompany\telas\TelaPoupanca.class
-com\mycompany\telas\TelaEmprestimo$1.class
 com\mycompany\telas\TelaLogin$2.class
-com\mycompany\telas\TelaEmprestimo.class
+com\mycompany\telas\TelaCriarUsuario$2.class
 com\mycompany\telas\TelaInicial$7.class
-com\mycompany\telas\TelaApagarConta$2.class
+com\mycompany\telas\TelaDeposito$2.class
 com\mycompany\telas\TelaInicial$4.class
 com\mycompany\telas\TelaEscolhaConta$2.class
 com\mycompany\sistemabancario\Main.class
@@ -19,15 +18,14 @@ com\mycompany\telas\TelaEscolhaConta.class
 com\mycompany\entities\ContaCorrente.class
 com\mycompany\telas\TelaExtrato.class
 com\mycompany\telas\TelaLogin$1.class
+com\mycompany\telas\TelaDeposito.class
 com\mycompany\telas\TelaEscolhaConta$1.class
 com\mycompany\telas\TelaTransferencia.class
+com\mycompany\telas\TelaDeposito$1.class
 com\mycompany\telas\TelaInicial$3.class
-com\mycompany\telas\TelaEmprestimo$2.class
 com\mycompany\controllers\ContaController.class
-com\mycompany\telas\TelaApagarConta.class
 com\mycompany\telas\TelaCriarConta$2.class
-com\mycompany\telas\TelaApagarConta$3.class
-com\mycompany\telas\TelaPoupanca$3.class
+com\mycompany\telas\TelaDeposito$3.class
 com\mycompany\telas\TelaCriarConta.class
 com\mycompany\telas\TelaCriarUsuario$1.class
 com\mycompany\entities\Conta.class
@@ -39,7 +37,6 @@ com\mycompany\telas\Janela$1.class
 com\mycompany\telas\TelaTransferencia$3.class
 com\mycompany\repositories\ContaRepository.class
 com\mycompany\telas\TelaExtrato$1.class
-com\mycompany\telas\TelaEmprestimo$3.class
 com\mycompany\controllers\UsuarioController.class
 com\mycompany\telas\TelaInicial$5.class
 com\mycompany\telas\TelaInicial.class
@@ -52,4 +49,3 @@ com\mycompany\telas\TelaTransferencia$2.class
 com\mycompany\entities\Emprestimo.class
 com\mycompany\entities\validation\ViewValidation.class
 com\mycompany\entities\Usuario.class
-com\mycompany\telas\TelaApagarConta$1.class
