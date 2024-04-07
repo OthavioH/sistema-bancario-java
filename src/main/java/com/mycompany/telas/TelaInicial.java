@@ -64,7 +64,7 @@ public class TelaInicial extends javax.swing.JPanel {
         jbPoupanca = new javax.swing.JButton();
         jbExtrato = new javax.swing.JButton();
         jbTransferencia = new javax.swing.JButton();
-        jbEmprestimo = new javax.swing.JButton();
+        jbDeposito = new javax.swing.JButton();
         jbCriarConta = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(204, 204, 255));
@@ -191,12 +191,12 @@ public class TelaInicial extends javax.swing.JPanel {
             }
         });
 
-        jbEmprestimo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jbEmprestimo.setText("Empréstimo");
-        jbEmprestimo.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 153, 153), 3, true));
-        jbEmprestimo.addActionListener(new java.awt.event.ActionListener() {
+        jbDeposito.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jbDeposito.setText("Depósito");
+        jbDeposito.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 153, 153), 3, true));
+        jbDeposito.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbEmprestimoActionPerformed(evt);
+                jbDepositoActionPerformed(evt);
             }
         });
 
@@ -222,7 +222,7 @@ public class TelaInicial extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(39, 39, 39)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jbEmprestimo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jbDeposito, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jbPoupanca, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jbExtrato, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
@@ -246,7 +246,7 @@ public class TelaInicial extends javax.swing.JPanel {
                     .addComponent(jbPoupanca, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbTransferencia, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jbEmprestimo, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jbDeposito, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -264,7 +264,7 @@ public class TelaInicial extends javax.swing.JPanel {
             return;
         }
         //Se a conta ativa for Conta Poupança o botão empréstimo fica desabilitado.
-        jbEmprestimo.setEnabled(false);
+        jbDeposito.setEnabled(false);
     }
     
     private void jbSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbSairActionPerformed
@@ -299,13 +299,13 @@ public class TelaInicial extends javax.swing.JPanel {
         janela.pack(); 
     }//GEN-LAST:event_jbTransferenciaActionPerformed
 
-    private void jbEmprestimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEmprestimoActionPerformed
+    private void jbDepositoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbDepositoActionPerformed
         Janela.telaDeposito = new TelaDeposito(this.contaUsuario, this.usuarioLogado);                                          
         JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);    
         janela.getContentPane().remove(Janela.telaInicial);                          
         janela.add(Janela.telaDeposito, BorderLayout.CENTER);                         
         janela.pack(); 
-    }//GEN-LAST:event_jbEmprestimoActionPerformed
+    }//GEN-LAST:event_jbDepositoActionPerformed
 
     private void jbCriarContaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCriarContaActionPerformed
         Janela.telaCriarConta = new TelaCriarConta(this.usuarioLogado);                                          
@@ -331,7 +331,7 @@ public class TelaInicial extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JButton jbCriarConta;
-    private javax.swing.JButton jbEmprestimo;
+    private javax.swing.JButton jbDeposito;
     private javax.swing.JButton jbExtrato;
     private javax.swing.JButton jbPoupanca;
     private javax.swing.JButton jbSair;
