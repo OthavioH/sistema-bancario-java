@@ -49,6 +49,7 @@ com\mycompany\telas\TelaEscolhaConta$3.class
 com\mycompany\telas\TelaLogin.class
 com\mycompany\telas\Janela.class
 com\mycompany\telas\TelaTransferencia$2.class
+com\mycompany\entities\Emprestimo.class
 com\mycompany\entities\validation\ViewValidation.class
 com\mycompany\entities\Usuario.class
 com\mycompany\telas\TelaApagarConta$1.class

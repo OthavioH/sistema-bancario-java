@@ -17,8 +17,6 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 public class TelaTransferencia extends javax.swing.JPanel {
-
-    
     public Usuario usuarioLogado;
     public Conta contaUsuario;
     private final UsuarioController usuarioController;

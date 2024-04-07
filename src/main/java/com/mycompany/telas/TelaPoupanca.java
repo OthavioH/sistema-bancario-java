@@ -1,5 +1,7 @@
 package com.mycompany.telas;
 
+import com.mycompany.controllers.ContaController;
+import com.mycompany.controllers.UsuarioController;
 import com.mycompany.entities.Conta;
 import com.mycompany.entities.Usuario;
 import java.awt.BorderLayout;
@@ -10,7 +12,8 @@ import javax.swing.SwingUtilities;
 public class TelaPoupanca extends javax.swing.JPanel {
     public Usuario usuarioLogado;
     public Conta contaUsuario;
-    
+    private final UsuarioController usuarioController;
+    private final ContaController contaController;
     /**
      * Construtor da [TelaPoupanca]
      * 
@@ -22,6 +25,11 @@ public class TelaPoupanca extends javax.swing.JPanel {
         
         this.usuarioLogado = usuario;
         this.contaUsuario = conta;
+        
+        usuarioController = new UsuarioController();
+        contaController = new ContaController();
+        
+        jlPoupanca.setText("Você tem R$"+"A taxa de Rendimento da sua Conta é de 0.6% ao mês\n");
     }
 
     @SuppressWarnings("unchecked")
@@ -29,8 +37,7 @@ public class TelaPoupanca extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel4 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jlSaldoAtual1 = new javax.swing.JLabel();
+        jlPoupanca = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jbSair = new javax.swing.JButton();
@@ -47,11 +54,9 @@ public class TelaPoupanca extends javax.swing.JPanel {
         jPanel4.setBackground(new java.awt.Color(204, 204, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true), " Poupança: ", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel2.setText("R$:");
-
-        jlSaldoAtual1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jlSaldoAtual1.setText("jLabel2");
+        jlPoupanca.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jlPoupanca.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jlPoupanca.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -59,16 +64,14 @@ public class TelaPoupanca extends javax.swing.JPanel {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jlSaldoAtual1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jlPoupanca, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
-                .addComponent(jlSaldoAtual1))
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addComponent(jlPoupanca, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jPanel2.setBackground(new java.awt.Color(0, 153, 153));
@@ -176,7 +179,7 @@ public class TelaPoupanca extends javax.swing.JPanel {
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jbCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                         .addComponent(jbConcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -221,7 +224,6 @@ public class TelaPoupanca extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -230,7 +232,7 @@ public class TelaPoupanca extends javax.swing.JPanel {
     private javax.swing.JButton jbCancelar;
     private javax.swing.JButton jbConcluir;
     private javax.swing.JButton jbSair;
+    private javax.swing.JLabel jlPoupanca;
     private javax.swing.JLabel jlSaldoAtual;
-    private javax.swing.JLabel jlSaldoAtual1;
     // End of variables declaration//GEN-END:variables
 }
