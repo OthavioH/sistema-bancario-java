@@ -270,9 +270,6 @@ public class TelaExtrato extends javax.swing.JPanel {
             Paragraph separadorRodape = new Paragraph("------------------------------------------------------------")
                     .setFont(fontTitulo)
                     .setFontSize(4);
-            Paragraph separadorLinhaVazia = new Paragraph("    ")
-                    .setFont(fontTitulo)
-                    .setFontSize(4);
             
             
             Paragraph titulo = new Paragraph("Extrato Bancário")
@@ -295,7 +292,6 @@ public class TelaExtrato extends javax.swing.JPanel {
             documento.add(separadorCabecalho);
             documento.add(titulo);
             documento.add(numContaAtiva);
-            documento.add(separadorLinhaVazia);
             documento.add(lista);
             documento.add(impressaoSaldoAtual);
             documento.add(separadorRodape);
