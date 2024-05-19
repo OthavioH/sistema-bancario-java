@@ -4,6 +4,8 @@ import com.mycompany.controllers.ContaController;
 import com.mycompany.entities.Conta;
 import com.mycompany.entities.Usuario;
 import java.awt.BorderLayout;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -70,6 +72,11 @@ public class TelaInicial extends javax.swing.JPanel {
         setBackground(new java.awt.Color(204, 204, 255));
         setMinimumSize(new java.awt.Dimension(350, 0));
         setPreferredSize(new java.awt.Dimension(380, 360));
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         jPanel2.setBackground(new java.awt.Color(0, 153, 153));
 
@@ -132,6 +139,16 @@ public class TelaInicial extends javax.swing.JPanel {
 
         jlSaldoAtual.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jlSaldoAtual.setText("jLabel2");
+        jlSaldoAtual.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jlSaldoAtualFocusGained(evt);
+            }
+        });
+        jlSaldoAtual.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                jlSaldoAtualComponentShown(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -319,6 +336,19 @@ public class TelaInicial extends javax.swing.JPanel {
         janela.add(Janela.telaEscolhaConta, BorderLayout.CENTER);                         
         janela.pack();
     }//GEN-LAST:event_jbSair1ActionPerformed
+
+    private void jlSaldoAtualComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_jlSaldoAtualComponentShown
+        
+    }//GEN-LAST:event_jlSaldoAtualComponentShown
+
+    private void jlSaldoAtualFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jlSaldoAtualFocusGained
+        System.out.println("oi");
+    }//GEN-LAST:event_jlSaldoAtualFocusGained
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        this.contaUsuario = this.contaController.getUsuarioContas(usuarioLogado.getCpf()).get(0);
+        this.changeSaldo();
+    }//GEN-LAST:event_formComponentShown
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

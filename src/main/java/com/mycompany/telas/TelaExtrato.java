@@ -4,10 +4,29 @@
  */
 package com.mycompany.telas;
 
+import com.itextpdf.io.font.constants.StandardFonts;
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
+import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.geom.Rectangle;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.ListItem;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.properties.HorizontalAlignment;
+import com.itextpdf.layout.properties.Leading;
+import com.itextpdf.layout.properties.ListNumberingType;
+import com.itextpdf.layout.properties.Property;
 import com.mycompany.controllers.ContaController;
 import com.mycompany.entities.Conta;
 import com.mycompany.entities.Usuario;
 import java.awt.BorderLayout;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -22,6 +41,7 @@ public class TelaExtrato extends javax.swing.JPanel {
     public Conta contaAtiva;
     private Usuario usuarioLogado;
     private final ContaController contaController;
+    private List<String> listaTransferencias = new ArrayList();
     /**
      * Construtor da TelaExtrato
      * 
@@ -55,7 +75,8 @@ public class TelaExtrato extends javax.swing.JPanel {
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jlistTransferencias = new javax.swing.JList<>();
-        jbVoltar = new javax.swing.JButton();
+        jbImprimirExtrato = new javax.swing.JButton();
+        jbVoltar1 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(204, 204, 255));
         setPreferredSize(new java.awt.Dimension(330, 360));
@@ -144,19 +165,28 @@ public class TelaExtrato extends javax.swing.JPanel {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 306, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
         );
 
-        jbVoltar.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jbVoltar.setText("Voltar");
-        jbVoltar.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 153, 153), 3, true));
-        jbVoltar.addActionListener(new java.awt.event.ActionListener() {
+        jbImprimirExtrato.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jbImprimirExtrato.setText("Imprimir");
+        jbImprimirExtrato.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 153, 153), 3, true));
+        jbImprimirExtrato.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbVoltarActionPerformed(evt);
+                jbImprimirExtratoActionPerformed(evt);
+            }
+        });
+
+        jbVoltar1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jbVoltar1.setText("Voltar");
+        jbVoltar1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 153, 153), 3, true));
+        jbVoltar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbVoltar1ActionPerformed(evt);
             }
         });
 
@@ -170,12 +200,12 @@ public class TelaExtrato extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jbVoltar1, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jbImprimirExtrato, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(90, 90, 90)
-                .addComponent(jbVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(106, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -185,8 +215,10 @@ public class TelaExtrato extends javax.swing.JPanel {
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(jbVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(74, 74, 74)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbVoltar1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbImprimirExtrato, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -195,7 +227,7 @@ public class TelaExtrato extends javax.swing.JPanel {
     private void initListaTransferencias(){
         DefaultListModel<String> listModel = new DefaultListModel<>();
         listModel.removeAllElements();
-        var listaTransferencias = this.contaController.getExtratoConta(contaAtiva.getId());
+        listaTransferencias = this.contaController.getExtratoConta(contaAtiva.getId());
         listModel.addAll(listaTransferencias);
         
         jlistTransferencias.setModel(listModel);
@@ -208,10 +240,85 @@ public class TelaExtrato extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jbSairActionPerformed
 
-    private void jbVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVoltarActionPerformed
-        irParaTelaInicial();
-    }//GEN-LAST:event_jbVoltarActionPerformed
+    private void jbImprimirExtratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbImprimirExtratoActionPerformed
+        this.imprimirExtrato();
+    }//GEN-LAST:event_jbImprimirExtratoActionPerformed
 
+    private void jbVoltar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVoltar1ActionPerformed
+        irParaTelaInicial();
+    }//GEN-LAST:event_jbVoltar1ActionPerformed
+
+    private void imprimirExtrato(){
+        
+        try {
+            PdfWriter writer = (PdfWriter) configurarGeradorPDF();
+            PdfDocument pdf = new PdfDocument(writer);
+            Rectangle retangulo = new Rectangle(90, 90);
+            PageSize pagesize = new PageSize(retangulo);
+            Document documento = new Document(pdf,pagesize);
+            documento.setMargins(01, 04, 01, 04);
+            PdfFont textoPadrao = PdfFontFactory.createFont(StandardFonts.TIMES_ROMAN);
+            PdfFont fontTitulo = PdfFontFactory.createFont(StandardFonts.TIMES_BOLD);
+            
+            documento.setFont(textoPadrao);
+            documento.setFontSize(5);
+            documento.setProperty(Property.LEADING, new Leading(Leading.MULTIPLIED, 0.2f));
+            
+            Paragraph linhaCabecalho = new Paragraph("__________________________")
+                    .setFont(fontTitulo)
+                    .setFontSize(6);
+            Paragraph linhaRodape = new Paragraph("------------------------------------------------------------")
+                    .setFont(fontTitulo)
+                    .setFontSize(4);
+            Paragraph linhaVazia = new Paragraph("    ")
+                    .setFont(fontTitulo)
+                    .setFontSize(4);
+            
+            
+            Paragraph titulo = new Paragraph("Extrato Bancário")
+                    .setHorizontalAlignment(HorizontalAlignment.CENTER)
+                    .setFont(fontTitulo);
+            Paragraph dadosCliente = new Paragraph("Nº da Conta: " + contaAtiva.getId());
+            Paragraph dadosPagamento = new Paragraph("Saldo atual: R$ " + contaAtiva.getSaldo());
+
+            com.itextpdf.layout.element.List lista = new com.itextpdf.layout.element.List()
+                    .setSymbolIndent(2)
+                    .setFontSize(5);
+            
+
+            for(int i = 0; i < this.listaTransferencias.size(); i++){
+                String detalhesTransferencia = this.listaTransferencias.get(i);
+                lista.add(new ListItem(detalhesTransferencia)); //add linha de texto na lista
+            }
+            
+
+            documento.add(linhaCabecalho);
+            documento.add(titulo);
+            documento.add(dadosCliente);
+            documento.add(linhaVazia);
+            documento.add(lista);
+            documento.add(dadosPagamento);
+            documento.add(linhaRodape);
+            documento.close();
+            
+            JOptionPane.showMessageDialog(null, "Impressão realizada!");
+        } catch (Exception e) {
+            System.out.println("Erro ao imprimir PDF: " + e.getMessage());
+        }
+    }
+    
+    public Object configurarGeradorPDF() {
+        
+        PdfWriter writer = null;
+        try {
+            writer = new PdfWriter("./extrato.pdf");
+            return writer;
+        } catch (FileNotFoundException ex) {
+            System.out.println("Erro ao configurar gerador de PDF");
+        }
+        return writer;
+    }
+    
     private void irParaTelaInicial(){
         Janela.telaInicial = new TelaInicial(this.contaAtiva, this.usuarioLogado);                                          
         JFrame janela = (JFrame) SwingUtilities.getWindowAncestor(this);    
@@ -228,8 +335,9 @@ public class TelaExtrato extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton jbImprimirExtrato;
     private javax.swing.JButton jbSair;
-    private javax.swing.JButton jbVoltar;
+    private javax.swing.JButton jbVoltar1;
     private javax.swing.JLabel jlSaldoAtual;
     private javax.swing.JList<String> jlistTransferencias;
     // End of variables declaration//GEN-END:variables

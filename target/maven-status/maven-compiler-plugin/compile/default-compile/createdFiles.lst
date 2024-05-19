@@ -15,6 +15,7 @@ com\mycompany\telas\TelaInicial$4.class
 com\mycompany\telas\TelaEscolhaConta$2.class
 com\mycompany\sistemabancario\Main.class
 com\mycompany\telas\TelaEscolhaConta.class
+com\mycompany\telas\TelaExtrato$3.class
 com\mycompany\entities\ContaCorrente.class
 com\mycompany\telas\TelaExtrato.class
 com\mycompany\telas\TelaLogin$1.class
@@ -34,6 +35,7 @@ com\mycompany\entities\Transferencia.class
 com\mycompany\telas\TelaCriarConta$1.class
 com\mycompany\telas\TelaInicial$2.class
 com\mycompany\telas\Janela$1.class
+com\mycompany\telas\TelaInicial$9.class
 com\mycompany\telas\TelaTransferencia$3.class
 com\mycompany\repositories\ContaRepository.class
 com\mycompany\telas\TelaExtrato$1.class
@@ -49,3 +51,5 @@ com\mycompany\telas\TelaTransferencia$2.class
 com\mycompany\entities\Emprestimo.class
 com\mycompany\entities\validation\ViewValidation.class
 com\mycompany\entities\Usuario.class
+com\mycompany\telas\TelaInicial$10.class
+com\mycompany\telas\TelaInicial$8.class
