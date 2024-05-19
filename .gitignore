@@ -24,3 +24,4 @@ hs_err_pid*
 replay_pid*
 comprovante_transferencia.pdf
 extrato.pdf
+*.pdf
