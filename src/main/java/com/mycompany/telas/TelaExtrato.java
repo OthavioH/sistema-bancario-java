@@ -264,13 +264,13 @@ public class TelaExtrato extends javax.swing.JPanel {
             documento.setFontSize(5);
             documento.setProperty(Property.LEADING, new Leading(Leading.MULTIPLIED, 0.2f));
             
-            Paragraph linhaCabecalho = new Paragraph("__________________________")
+            Paragraph separadorCabecalho = new Paragraph("__________________________")
                     .setFont(fontTitulo)
                     .setFontSize(6);
-            Paragraph linhaRodape = new Paragraph("------------------------------------------------------------")
+            Paragraph separadorRodape = new Paragraph("------------------------------------------------------------")
                     .setFont(fontTitulo)
                     .setFontSize(4);
-            Paragraph linhaVazia = new Paragraph("    ")
+            Paragraph separadorLinhaVazia = new Paragraph("    ")
                     .setFont(fontTitulo)
                     .setFontSize(4);
             
@@ -278,8 +278,8 @@ public class TelaExtrato extends javax.swing.JPanel {
             Paragraph titulo = new Paragraph("Extrato Bancário")
                     .setHorizontalAlignment(HorizontalAlignment.CENTER)
                     .setFont(fontTitulo);
-            Paragraph dadosCliente = new Paragraph("Nº da Conta: " + contaAtiva.getId());
-            Paragraph dadosPagamento = new Paragraph("Saldo atual: R$ " + contaAtiva.getSaldo());
+            Paragraph numContaAtiva = new Paragraph("Nº da Conta: " + contaAtiva.getId());
+            Paragraph impressaoSaldoAtual = new Paragraph("Saldo atual: R$ " + contaAtiva.getSaldo());
 
             com.itextpdf.layout.element.List lista = new com.itextpdf.layout.element.List()
                     .setSymbolIndent(2)
@@ -292,13 +292,13 @@ public class TelaExtrato extends javax.swing.JPanel {
             }
             
 
-            documento.add(linhaCabecalho);
+            documento.add(separadorCabecalho);
             documento.add(titulo);
-            documento.add(dadosCliente);
-            documento.add(linhaVazia);
+            documento.add(numContaAtiva);
+            documento.add(separadorLinhaVazia);
             documento.add(lista);
-            documento.add(dadosPagamento);
-            documento.add(linhaRodape);
+            documento.add(impressaoSaldoAtual);
+            documento.add(separadorRodape);
             documento.close();
             
             JOptionPane.showMessageDialog(null, "Impressão realizada!");

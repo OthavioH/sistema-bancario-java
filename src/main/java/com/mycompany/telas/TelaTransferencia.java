@@ -362,13 +362,10 @@ public class TelaTransferencia extends javax.swing.JPanel {
             documento.setFontSize(5);
             documento.setProperty(Property.LEADING, new Leading(Leading.MULTIPLIED, 0.2f));
             
-            Paragraph linhaCabecalho = new Paragraph("__________________________")
+            Paragraph separadorCabecalho = new Paragraph("__________________________")
                     .setFont(fontTitulo)
                     .setFontSize(6);
-            Paragraph linhaRodape = new Paragraph("------------------------------------------------------------")
-                    .setFont(fontTitulo)
-                    .setFontSize(4);
-            Paragraph linhaVazia = new Paragraph("    ")
+            Paragraph separadorRodape = new Paragraph("------------------------------------------------------------")
                     .setFont(fontTitulo)
                     .setFontSize(4);
             
@@ -384,13 +381,13 @@ public class TelaTransferencia extends javax.swing.JPanel {
             Paragraph valorTransferido = new Paragraph("Valor da transferência: R$ " + transferencia.getValor());
             
 
-            documento.add(linhaCabecalho);
+            documento.add(separadorCabecalho);
             documento.add(titulo);
             documento.add(idContaRemetente);
             documento.add(idContaDestinatario);
             documento.add(dataTransferencia);
             documento.add(valorTransferido);
-            documento.add(linhaRodape);
+            documento.add(separadorRodape);
             documento.close();
             
         } catch (Exception e) {
