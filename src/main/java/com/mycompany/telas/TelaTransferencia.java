@@ -1,11 +1,26 @@
 package com.mycompany.telas;
 
+import com.itextpdf.io.font.constants.StandardFonts;
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
+import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.geom.Rectangle;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.ListItem;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.properties.HorizontalAlignment;
+import com.itextpdf.layout.properties.Leading;
+import com.itextpdf.layout.properties.Property;
 import com.mycompany.controllers.ContaController;
 import com.mycompany.entities.Conta;
 import com.mycompany.entities.Transferencia;
 import com.mycompany.entities.Usuario;
 import java.awt.BorderLayout;
+import java.io.FileNotFoundException;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -319,18 +334,83 @@ public class TelaTransferencia extends javax.swing.JPanel {
         double valorTransferencia = Double.parseDouble(valorConvertido);
         Date dataTransferencia = Date.valueOf(LocalDate.now());
         
-        var tranferencia = new Transferencia(contaUsuario, contaDestinatario, valorTransferencia, dataTransferencia);
-        var isTransferenciaRealizada = this.contaController.realizarTransferencia(tranferencia);
+        var transferencia = new Transferencia(contaUsuario, contaDestinatario, valorTransferencia, dataTransferencia);
+        var isTransferenciaRealizada = this.contaController.realizarTransferencia(transferencia);
         if (!isTransferenciaRealizada){
             JOptionPane.showMessageDialog(null, "Não é possível completar a operação", "Erro", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
-        JOptionPane.showMessageDialog(null, "Transferência realizada com sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+        this.gerarComprovante(transferencia);
+        JOptionPane.showMessageDialog(null, "Transferência realizada com sucesso.\nO comprovante foi impresso.", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
         
         this.irParaTelaInicial();
     }//GEN-LAST:event_jbConcluirActionPerformed
 
+    private void gerarComprovante(Transferencia transferencia){
+        try {
+            PdfWriter writer = (PdfWriter) configurarGeradorPDF();
+            PdfDocument pdf = new PdfDocument(writer);
+            Rectangle retangulo = new Rectangle(90, 90);
+            PageSize pagesize = new PageSize(retangulo);
+            Document documento = new Document(pdf,pagesize);
+            documento.setMargins(01, 04, 01, 04);
+            PdfFont textoPadrao = PdfFontFactory.createFont(StandardFonts.TIMES_ROMAN);
+            PdfFont fontTitulo = PdfFontFactory.createFont(StandardFonts.TIMES_BOLD);
+            
+            documento.setFont(textoPadrao);
+            documento.setFontSize(5);
+            documento.setProperty(Property.LEADING, new Leading(Leading.MULTIPLIED, 0.2f));
+            
+            Paragraph linhaCabecalho = new Paragraph("__________________________")
+                    .setFont(fontTitulo)
+                    .setFontSize(6);
+            Paragraph linhaRodape = new Paragraph("------------------------------------------------------------")
+                    .setFont(fontTitulo)
+                    .setFontSize(4);
+            Paragraph linhaVazia = new Paragraph("    ")
+                    .setFont(fontTitulo)
+                    .setFontSize(4);
+            
+            
+            Paragraph titulo = new Paragraph("Comprovante de Transferência")
+                    .setHorizontalAlignment(HorizontalAlignment.CENTER)
+                    .setFont(fontTitulo);
+            
+            Paragraph idContaRemetente = new Paragraph("Conta Remetente: " + transferencia.getRemetente().getId());
+            Paragraph idContaDestinatario = new Paragraph("Conta Destinatário: " + transferencia.getDestinatario().getId());
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            Paragraph dataTransferencia = new Paragraph("Data da transferência: " + dateFormat.format(transferencia.getData()));
+            Paragraph valorTransferido = new Paragraph("Valor da transferência: R$ " + transferencia.getValor());
+            
+
+            documento.add(linhaCabecalho);
+            documento.add(titulo);
+            documento.add(idContaRemetente);
+            documento.add(idContaDestinatario);
+            documento.add(dataTransferencia);
+            documento.add(valorTransferido);
+            documento.add(linhaRodape);
+            documento.close();
+            
+        } catch (Exception e) {
+            System.out.println("Erro ao imprimir PDF: " + e.getMessage());
+        }
+    }
+    
+    
+    public Object configurarGeradorPDF() {
+        
+        PdfWriter writer = null;
+        try {
+            writer = new PdfWriter("./comprovante_transferencia.pdf");
+            return writer;
+        } catch (FileNotFoundException ex) {
+            System.out.println("Erro ao configurar gerador de PDF");
+        }
+        return writer;
+    }
+    
     private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
         this.irParaTelaInicial();
     }//GEN-LAST:event_jbCancelarActionPerformed

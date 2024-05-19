@@ -237,6 +237,8 @@ public class TelaDeposito extends javax.swing.JPanel {
             return;
         }
         
+        this.contaSelecionada.setSaldo(valorDeposito + contaSelecionada.getSaldo());
+        
         JOptionPane.showMessageDialog(null, "Depósito realizado com sucesso", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
         
         this.irParaTelaInicial();
